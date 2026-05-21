@@ -1,0 +1,3531 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tailwind CSS — Complete Mastery Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Onest:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #080b10;
+        --surface: #0e1219;
+        --surface2: #141921;
+        --surface3: #1a2130;
+        --border: #1e2a3a;
+        --border2: #263040;
+        --sky: #38bdf8;
+        --sky-dim: rgba(56, 189, 248, 0.12);
+        --indigo: #818cf8;
+        --indigo-dim: rgba(129, 140, 248, 0.12);
+        --emerald: #34d399;
+        --emerald-dim: rgba(52, 211, 153, 0.1);
+        --amber: #fbbf24;
+        --amber-dim: rgba(251, 191, 36, 0.1);
+        --rose: #fb7185;
+        --rose-dim: rgba(251, 113, 133, 0.1);
+        --text: #cbd5e1;
+        --text-bright: #f1f5f9;
+        --text-dim: #64748b;
+        --text-faint: #334155;
+        --code-bg: #060810;
+        --mono: "JetBrains Mono", monospace;
+        --sans: "Onest", sans-serif;
+        --nav-w: 260px;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+        font-size: 14px;
+        line-height: 1.7;
+        display: flex;
+        min-height: 100vh;
+      }
+      #sidebar {
+        width: var(--nav-w);
+        background: var(--surface);
+        border-right: 1px solid var(--border);
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        z-index: 200;
+        scrollbar-width: thin;
+        scrollbar-color: var(--border2) transparent;
+        display: flex;
+        flex-direction: column;
+      }
+      #sidebar::-webkit-scrollbar {
+        width: 4px;
+      }
+      #sidebar::-webkit-scrollbar-thumb {
+        background: var(--border2);
+        border-radius: 2px;
+      }
+      .sidebar-logo {
+        padding: 20px 20px 16px;
+        border-bottom: 1px solid var(--border);
+        flex-shrink: 0;
+      }
+      .logo-badge {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .logo-icon {
+        width: 32px;
+        height: 32px;
+        background: linear-gradient(135deg, var(--sky), var(--indigo));
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        flex-shrink: 0;
+      }
+      .logo-text {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text-bright);
+        line-height: 1.2;
+      }
+      .logo-sub {
+        font-size: 10px;
+        color: var(--text-dim);
+        font-weight: 400;
+        margin-top: 1px;
+      }
+      .nav-group {
+        padding: 12px 10px 4px;
+      }
+      .nav-group-label {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--text-faint);
+        padding: 0 10px 6px;
+      }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 10px;
+        border-radius: 7px;
+        cursor: pointer;
+        font-size: 12.5px;
+        color: var(--text-dim);
+        transition: all 0.15s;
+        user-select: none;
+        margin-bottom: 1px;
+        text-decoration: none;
+      }
+      .nav-item:hover {
+        background: var(--surface2);
+        color: var(--text);
+      }
+      .nav-item.active {
+        background: var(--sky-dim);
+        color: var(--sky);
+        font-weight: 600;
+      }
+      .nav-num {
+        font-family: var(--mono);
+        font-size: 10px;
+        color: var(--text-faint);
+        width: 16px;
+        text-align: right;
+        flex-shrink: 0;
+      }
+      .nav-item.active .nav-num {
+        color: rgba(56, 189, 248, 0.5);
+      }
+      .nav-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--text-faint);
+        flex-shrink: 0;
+      }
+      .nav-item.active .nav-dot {
+        background: var(--sky);
+      }
+      #main {
+        margin-left: var(--nav-w);
+        flex: 1;
+        max-width: calc(100% - var(--nav-w));
+      }
+      .hero {
+        position: relative;
+        padding: 56px 56px 48px;
+        overflow: hidden;
+        border-bottom: 1px solid var(--border);
+      }
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse at 80% 20%,
+            rgba(56, 189, 248, 0.07) 0%,
+            transparent 55%
+          ),
+          radial-gradient(
+            ellipse at 10% 80%,
+            rgba(129, 140, 248, 0.05) 0%,
+            transparent 50%
+          );
+        pointer-events: none;
+      }
+      .hero-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--sky-dim);
+        border: 1px solid rgba(56, 189, 248, 0.2);
+        color: var(--sky);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 4px 12px;
+        border-radius: 20px;
+        margin-bottom: 18px;
+      }
+      .hero h1 {
+        font-size: 42px;
+        font-weight: 900;
+        color: var(--text-bright);
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        margin-bottom: 12px;
+      }
+      .hero h1 .grad {
+        background: linear-gradient(120deg, var(--sky) 0%, var(--indigo) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .hero-desc {
+        color: var(--text-dim);
+        font-size: 15px;
+        max-width: 540px;
+        line-height: 1.6;
+        margin-bottom: 28px;
+      }
+      .hero-stats {
+        display: flex;
+        gap: 32px;
+        flex-wrap: wrap;
+      }
+      .hero-stat .val {
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--text-bright);
+        display: block;
+        font-family: var(--mono);
+      }
+      .hero-stat .lbl {
+        font-size: 11px;
+        color: var(--text-dim);
+      }
+      .content-area {
+        padding: 0 56px 80px;
+      }
+      .section {
+        display: none;
+        padding-top: 44px;
+      }
+      .section.active {
+        display: block;
+      }
+      .section-header {
+        margin-bottom: 32px;
+      }
+      .section-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--text-dim);
+        margin-bottom: 8px;
+      }
+      .section-tag::before {
+        content: "";
+        width: 20px;
+        height: 1px;
+        background: var(--border2);
+      }
+      .section-title {
+        font-size: 28px;
+        font-weight: 800;
+        color: var(--text-bright);
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+      }
+      .section-lead {
+        color: var(--text-dim);
+        font-size: 14px;
+        margin-top: 8px;
+        max-width: 600px;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 22px 26px;
+        margin-bottom: 18px;
+      }
+      .card-head {
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: var(--sky);
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .card-head::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(to right, var(--border), transparent);
+      }
+      pre {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 18px 20px;
+        overflow-x: auto;
+        font-family: var(--mono);
+        font-size: 12.5px;
+        line-height: 1.85;
+        margin: 12px 0;
+      }
+      code {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--sky);
+        background: rgba(56, 189, 248, 0.07);
+        border: 1px solid rgba(56, 189, 248, 0.15);
+        padding: 2px 7px;
+        border-radius: 5px;
+      }
+      pre code {
+        background: none;
+        border: none;
+        padding: 0;
+        color: inherit;
+        font-size: inherit;
+      }
+      .kw {
+        color: #fb923c;
+      }
+      .cls {
+        color: #38bdf8;
+      }
+      .str {
+        color: #34d399;
+      }
+      .cm {
+        color: #334155;
+        font-style: italic;
+      }
+      .tag {
+        color: #818cf8;
+      }
+      .atr {
+        color: #f472b6;
+      }
+      .val {
+        color: #fbbf24;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      th {
+        text-align: left;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--text-dim);
+        padding: 8px 12px;
+        border-bottom: 1px solid var(--border2);
+      }
+      td {
+        padding: 9px 12px;
+        border-bottom: 1px solid rgba(30, 42, 58, 0.6);
+        vertical-align: top;
+        color: var(--text);
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      tr:hover td {
+        background: rgba(255, 255, 255, 0.015);
+      }
+      td code {
+        font-size: 11.5px;
+      }
+      td:first-child {
+        white-space: nowrap;
+      }
+      .tip,
+      .warn,
+      .info {
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin: 14px 0;
+        font-size: 13px;
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+      }
+      .tip {
+        background: var(--emerald-dim);
+        border: 1px solid rgba(52, 211, 153, 0.2);
+        color: #a7f3d0;
+      }
+      .warn {
+        background: var(--amber-dim);
+        border: 1px solid rgba(251, 191, 36, 0.2);
+        color: #fde68a;
+      }
+      .info {
+        background: var(--indigo-dim);
+        border: 1px solid rgba(129, 140, 248, 0.2);
+        color: #c7d2fe;
+      }
+      .g2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .g3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      .compare {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin: 14px 0;
+      }
+      .compare-label {
+        display: block;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        padding: 4px 10px;
+        border-radius: 5px;
+        margin-bottom: 6px;
+      }
+      .bad-label {
+        background: rgba(251, 113, 133, 0.15);
+        color: var(--rose);
+      }
+      .good-label {
+        background: rgba(52, 211, 153, 0.15);
+        color: var(--emerald);
+      }
+      .sp-bar {
+        height: 10px;
+        background: linear-gradient(to right, var(--sky), var(--indigo));
+        border-radius: 3px;
+        display: inline-block;
+        vertical-align: middle;
+      }
+      .bp-bar {
+        display: flex;
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        margin: 14px 0;
+      }
+      .bp-cell {
+        flex: 1;
+        padding: 14px 10px;
+        text-align: center;
+        border-right: 1px solid var(--border);
+        font-size: 11px;
+      }
+      .bp-cell:last-child {
+        border-right: none;
+      }
+      .bp-cell .bp-name {
+        font-family: var(--mono);
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--sky);
+      }
+      .bp-cell .bp-px {
+        color: var(--text-dim);
+        margin: 2px 0;
+        font-size: 11px;
+      }
+      .bp-cell .bp-eg {
+        color: var(--emerald);
+        font-family: var(--mono);
+        font-size: 10px;
+      }
+      .bp-cell:nth-child(1) {
+        background: rgba(56, 189, 248, 0.02);
+      }
+      .bp-cell:nth-child(2) {
+        background: rgba(56, 189, 248, 0.04);
+      }
+      .bp-cell:nth-child(3) {
+        background: rgba(56, 189, 248, 0.06);
+      }
+      .bp-cell:nth-child(4) {
+        background: rgba(56, 189, 248, 0.08);
+      }
+      .bp-cell:nth-child(5) {
+        background: rgba(56, 189, 248, 0.1);
+      }
+      .bp-cell:nth-child(6) {
+        background: rgba(56, 189, 248, 0.12);
+      }
+      .flow {
+        display: flex;
+        align-items: center;
+        overflow-x: auto;
+        padding: 16px 0;
+        flex-wrap: nowrap;
+      }
+      .flow-box {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-bright);
+        white-space: nowrap;
+        flex-shrink: 0;
+        text-align: center;
+        line-height: 1.4;
+      }
+      .flow-box.sky {
+        border-color: rgba(56, 189, 248, 0.4);
+        color: var(--sky);
+        background: var(--sky-dim);
+      }
+      .flow-box.green {
+        border-color: rgba(52, 211, 153, 0.4);
+        color: var(--emerald);
+        background: var(--emerald-dim);
+      }
+      .flow-arrow {
+        color: var(--text-faint);
+        font-size: 18px;
+        padding: 0 10px;
+        flex-shrink: 0;
+      }
+      .color-row {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-bottom: 7px;
+      }
+      .swatch {
+        width: 26px;
+        height: 26px;
+        border-radius: 5px;
+        flex-shrink: 0;
+      }
+      .color-name {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--text-dim);
+        min-width: 64px;
+      }
+      .shade-labels {
+        display: flex;
+        padding-left: 68px;
+        margin-top: 4px;
+      }
+      .shade-labels span {
+        width: 30px;
+        font-size: 9.5px;
+        color: var(--text-faint);
+        font-family: var(--mono);
+      }
+      .cheat-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+        gap: 10px;
+        margin: 14px 0;
+      }
+      .cheat-cell {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 9px;
+        padding: 14px;
+      }
+      .cheat-cell .cc-cat {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 9px;
+      }
+      .cheat-cell code {
+        display: block;
+        background: none;
+        border: none;
+        padding: 1.5px 0;
+        font-size: 11px;
+        color: var(--sky);
+        line-height: 1.75;
+      }
+      .eco-row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+      }
+      .eco-tag {
+        background: var(--surface2);
+        border: 1px solid var(--border2);
+        border-radius: 6px;
+        padding: 5px 10px;
+        font-size: 12px;
+        font-family: var(--mono);
+        color: var(--text);
+      }
+      .eco-tag.sky {
+        border-color: rgba(56, 189, 248, 0.3);
+        color: var(--sky);
+        background: var(--sky-dim);
+      }
+      .eco-tag.green {
+        border-color: rgba(52, 211, 153, 0.3);
+        color: var(--emerald);
+        background: var(--emerald-dim);
+      }
+      .eco-tag.indigo {
+        border-color: rgba(129, 140, 248, 0.3);
+        color: var(--indigo);
+        background: var(--indigo-dim);
+      }
+      .adv-badge {
+        display: inline-block;
+        background: linear-gradient(
+          135deg,
+          rgba(251, 191, 36, 0.15),
+          rgba(251, 113, 133, 0.15)
+        );
+        border: 1px solid rgba(251, 191, 36, 0.25);
+        color: var(--amber);
+        font-size: 10px;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        margin-left: 8px;
+        vertical-align: middle;
+      }
+      h3 {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--text-bright);
+        margin: 22px 0 10px;
+        letter-spacing: -0.01em;
+      }
+      h4 {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--indigo);
+        margin: 16px 0 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      p {
+        margin-bottom: 12px;
+      }
+      ul {
+        padding-left: 20px;
+        margin-bottom: 12px;
+      }
+      li {
+        margin-bottom: 5px;
+        color: var(--text);
+      }
+      strong {
+        color: var(--text-bright);
+        font-weight: 600;
+      }
+      .mobile-toggle {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: var(--sky);
+        color: #000;
+        border: none;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        font-size: 20px;
+        cursor: pointer;
+        z-index: 300;
+        box-shadow: 0 4px 20px rgba(56, 189, 248, 0.4);
+      }
+      @media (max-width: 900px) {
+        :root {
+          --nav-w: 0px;
+        }
+        #sidebar {
+          transform: translateX(-260px);
+          width: 260px;
+          transition: transform 0.3s;
+        }
+        #sidebar.open {
+          transform: translateX(0);
+        }
+        #main {
+          margin-left: 0;
+          max-width: 100%;
+        }
+        .hero {
+          padding: 32px 20px 28px;
+        }
+        .content-area {
+          padding: 0 20px 60px;
+        }
+        .hero h1 {
+          font-size: 28px;
+        }
+        .g2,
+        .g3,
+        .compare {
+          grid-template-columns: 1fr;
+        }
+        .mobile-toggle {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav id="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-badge">
+          <div class="logo-icon">🎨</div>
+          <div>
+            <div class="logo-text">Tailwind CSS</div>
+            <div class="logo-sub">Complete Mastery Guide</div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-label">Foundations</div>
+        <a class="nav-item active" onclick="show('intro', this)"
+          ><span class="nav-num">01</span><span class="nav-dot"></span>What is
+          Tailwind?</a
+        >
+        <a class="nav-item" onclick="show('setup', this)"
+          ><span class="nav-num">02</span><span class="nav-dot"></span>Setup &
+          Install</a
+        >
+        <a class="nav-item" onclick="show('naming', this)"
+          ><span class="nav-num">03</span><span class="nav-dot"></span>Naming
+          Pattern</a
+        >
+        <a class="nav-item" onclick="show('spacing', this)"
+          ><span class="nav-num">04</span><span class="nav-dot"></span>Spacing &
+          Sizing</a
+        >
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-label">Styling</div>
+        <a class="nav-item" onclick="show('typography', this)"
+          ><span class="nav-num">05</span
+          ><span class="nav-dot"></span>Typography</a
+        >
+        <a class="nav-item" onclick="show('colors', this)"
+          ><span class="nav-num">06</span><span class="nav-dot"></span>Colors</a
+        >
+        <a class="nav-item" onclick="show('flexgrid', this)"
+          ><span class="nav-num">07</span><span class="nav-dot"></span>Flex &
+          Grid</a
+        >
+        <a class="nav-item" onclick="show('responsive', this)"
+          ><span class="nav-num">08</span
+          ><span class="nav-dot"></span>Responsive</a
+        >
+        <a class="nav-item" onclick="show('states', this)"
+          ><span class="nav-num">09</span><span class="nav-dot"></span>States &
+          Dark Mode</a
+        >
+        <a class="nav-item" onclick="show('transitions', this)"
+          ><span class="nav-num">10</span
+          ><span class="nav-dot"></span>Transitions</a
+        >
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-label">Configuration</div>
+        <a class="nav-item" onclick="show('config', this)"
+          ><span class="nav-num">11</span
+          ><span class="nav-dot"></span>Customization</a
+        >
+        <a class="nav-item" onclick="show('patterns', this)"
+          ><span class="nav-num">12</span><span class="nav-dot"></span>Real
+          Patterns</a
+        >
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-label">Advanced ✦</div>
+        <a class="nav-item" onclick="show('layer', this)"
+          ><span class="nav-num">13</span><span class="nav-dot"></span>@layer &
+          @apply</a
+        >
+        <a class="nav-item" onclick="show('variants', this)"
+          ><span class="nav-num">14</span><span class="nav-dot"></span>has · not
+          · aria · data</a
+        >
+        <a class="nav-item" onclick="show('react', this)"
+          ><span class="nav-num">15</span><span class="nav-dot"></span>React &
+          Next.js</a
+        >
+        <a class="nav-item" onclick="show('perf', this)"
+          ><span class="nav-num">16</span
+          ><span class="nav-dot"></span>Performance</a
+        >
+        <a class="nav-item" onclick="show('build', this)"
+          ><span class="nav-num">17</span><span class="nav-dot"></span>Build
+          Full UI</a
+        >
+        <a class="nav-item" onclick="show('ecosystem', this)"
+          ><span class="nav-num">18</span><span class="nav-dot"></span>Ecosystem
+          Map</a
+        >
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-label">Reference</div>
+        <a class="nav-item" onclick="show('cheatsheet', this)"
+          ><span class="nav-num">19</span><span class="nav-dot"></span>Cheat
+          Sheet</a
+        >
+        <a class="nav-item" onclick="show('mistakes', this)"
+          ><span class="nav-num">20</span><span class="nav-dot"></span>Common
+          Mistakes</a
+        >
+      </div>
+    </nav>
+    <div id="main">
+      <div class="hero">
+        <div class="hero-eyebrow">📚 Complete Study Notes</div>
+        <h1>Master <span class="grad">Tailwind CSS</span></h1>
+        <p class="hero-desc">
+          From zero to pro in one place. Every concept, pattern, and trick —
+          with all advanced topics included.
+        </p>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <span class="val">20</span><span class="lbl">sections</span>
+          </div>
+          <div class="hero-stat">
+            <span class="val">200+</span><span class="lbl">examples</span>
+          </div>
+          <div class="hero-stat">
+            <span class="val">v3+v4</span><span class="lbl">coverage</span>
+          </div>
+        </div>
+      </div>
+      <div class="content-area">
+        <!-- ===== SECTION 1 ===== -->
+        <div class="section active" id="s-intro">
+          <div class="section-header">
+            <div class="section-tag">Section 01</div>
+            <div class="section-title">What is Tailwind CSS?</div>
+            <div class="section-lead">
+              The mental model — utility-first CSS explained simply.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">The Big Idea</div>
+            <p>
+              Instead of writing CSS files, Tailwind gives you hundreds of tiny,
+              single-purpose classes that <em>are</em> your CSS. Compose them
+              directly in HTML.
+            </p>
+            <div class="compare">
+              <div>
+                <span class="compare-label bad-label">❌ Traditional CSS</span>
+                <pre><span class="cm">/* style.css */</span>
+<span class="cls">.card</span> {
+  <span class="atr">background</span>: <span class="val">white</span>;
+  <span class="atr">padding</span>: <span class="val">24px</span>;
+  <span class="atr">border-radius</span>: <span class="val">12px</span>;
+}</pre>
+              </div>
+              <div>
+                <span class="compare-label good-label">✅ Tailwind CSS</span>
+                <pre><span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"bg-white p-6
+  rounded-xl shadow-lg"</span><span class="tag">&gt;</span>
+  Card content
+<span class="tag">&lt;/div&gt;</span></pre>
+              </div>
+            </div>
+            <div class="tip">
+              <span>💡</span
+              ><span
+                ><strong>Key insight:</strong> You never leave HTML.
+                <code>p-6</code> always means <code>padding: 1.5rem</code>. No
+                surprises.</span
+              >
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">How Tailwind Works Internally</div>
+            <div class="flow">
+              <div class="flow-box">Your HTML / JSX</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-box sky">
+                Tailwind Scanner<br /><small
+                  style="font-weight: 400; color: rgba(56, 189, 248, 0.6)"
+                  >finds class names</small
+                >
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-box">
+                JIT Engine<br /><small
+                  style="font-weight: 400; color: var(--text-dim)"
+                  >generates CSS</small
+                >
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-box green">
+                ~5–15 KB<br /><small
+                  style="font-weight: 400; color: rgba(52, 211, 153, 0.6)"
+                  >production file</small
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">Traditional vs Utility-First</div>
+            <table>
+              <tr>
+                <th>Traditional CSS</th>
+                <th>Tailwind CSS</th>
+              </tr>
+              <tr>
+                <td>HTML → separate CSS file</td>
+                <td>Everything lives in HTML</td>
+              </tr>
+              <tr>
+                <td>Semantic names (.btn-primary)</td>
+                <td>Classes describe behavior</td>
+              </tr>
+              <tr>
+                <td>CSS grows unboundedly</td>
+                <td>CSS never grows — only used classes exist</td>
+              </tr>
+              <tr>
+                <td>Styles conflict across codebase</td>
+                <td>Scoped to each element naturally</td>
+              </tr>
+              <tr>
+                <td>Afraid to delete CSS</td>
+                <td>Safe to delete unused HTML</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 2 ===== -->
+        <div class="section" id="s-setup">
+          <div class="section-header">
+            <div class="section-tag">Section 02</div>
+            <div class="section-title">Setup & Installation</div>
+            <div class="section-lead">
+              Get Tailwind running in under 3 minutes.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">
+              Method 1 — Vite + Tailwind v4 (Recommended)
+            </div>
+            <pre>
+npm create vite@latest my-app -- --template react
+cd my-app
+npm install tailwindcss @tailwindcss/vite</pre
+            >
+            <pre><span class="cm">// vite.config.js</span>
+<span class="kw">import</span> tailwindcss <span class="kw">from</span> <span class="str">'@tailwindcss/vite'</span>
+<span class="kw">export default</span> { plugins: [tailwindcss()] }</pre>
+            <pre><span class="cm">/* src/index.css */</span>
+<span class="cls">@import</span> <span class="str">"tailwindcss"</span>;</pre>
+            <div class="tip">
+              <span>✅</span> No config file needed in v4. Run
+              <code>npm run dev</code>.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">Method 2 — PostCSS / Tailwind v3</div>
+            <pre>
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p</pre
+            >
+            <pre><span class="cm">// tailwind.config.js</span>
+module.exports = {
+  <span class="atr">content</span>: [<span class="str">"./src/**/*.{html,js,jsx,ts,tsx}"</span>],
+  <span class="atr">theme</span>: { extend: {} },
+  <span class="atr">plugins</span>: [],
+}</pre>
+            <pre><span class="cm">/* src/index.css */</span>
+<span class="cls">@tailwind</span> base;
+<span class="cls">@tailwind</span> components;
+<span class="cls">@tailwind</span> utilities;</pre>
+          </div>
+          <div class="card">
+            <div class="card-head">VS Code Extensions</div>
+            <table>
+              <tr>
+                <th>Extension</th>
+                <th>What it does</th>
+              </tr>
+              <tr>
+                <td><code>Tailwind CSS IntelliSense</code></td>
+                <td>Autocompletes class names — essential</td>
+              </tr>
+              <tr>
+                <td><code>prettier-plugin-tailwindcss</code></td>
+                <td>Auto-sorts classes in recommended order</td>
+              </tr>
+            </table>
+            <pre>npm install -D prettier prettier-plugin-tailwindcss</pre>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 3 ===== -->
+        <div class="section" id="s-naming">
+          <div class="section-header">
+            <div class="section-tag">Section 03</div>
+            <div class="section-title">The Naming Pattern</div>
+            <div class="section-lead">
+              Once you see the pattern, every class makes sense.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">property — variant — value</div>
+            <div
+              style="
+                background: var(--code-bg);
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                padding: 24px;
+                text-align: center;
+                margin: 12px 0;
+              "
+            >
+              <div
+                style="
+                  font-family: var(--mono);
+                  font-size: 24px;
+                  letter-spacing: 0.05em;
+                "
+              >
+                <span style="color: #fb923c">bg</span
+                ><span style="color: var(--text-faint)">-</span
+                ><span style="color: #818cf8">blue</span
+                ><span style="color: var(--text-faint)">-</span
+                ><span style="color: #34d399">500</span>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  justify-content: center;
+                  gap: 60px;
+                  margin-top: 16px;
+                  font-size: 11px;
+                "
+              >
+                <div>
+                  <span style="color: #fb923c; font-weight: 700; display: block"
+                    >property</span
+                  ><span style="color: var(--text-dim)">background-color</span>
+                </div>
+                <div>
+                  <span style="color: #818cf8; font-weight: 700; display: block"
+                    >variant</span
+                  ><span style="color: var(--text-dim)">blue palette</span>
+                </div>
+                <div>
+                  <span style="color: #34d399; font-weight: 700; display: block"
+                    >value</span
+                  ><span style="color: var(--text-dim)">shade 500</span>
+                </div>
+              </div>
+            </div>
+            <div class="g2">
+              <table>
+                <tr>
+                  <th>Class</th>
+                  <th>CSS Output</th>
+                </tr>
+                <tr>
+                  <td><code>bg-blue-500</code></td>
+                  <td>background-color: #3b82f6</td>
+                </tr>
+                <tr>
+                  <td><code>text-red-500</code></td>
+                  <td>color: #ef4444</td>
+                </tr>
+                <tr>
+                  <td><code>p-4</code></td>
+                  <td>padding: 1rem (16px)</td>
+                </tr>
+                <tr>
+                  <td><code>w-1/2</code></td>
+                  <td>width: 50%</td>
+                </tr>
+                <tr>
+                  <td><code>rounded-lg</code></td>
+                  <td>border-radius: 0.5rem</td>
+                </tr>
+                <tr>
+                  <td><code>font-bold</code></td>
+                  <td>font-weight: 700</td>
+                </tr>
+                <tr>
+                  <td><code>flex</code></td>
+                  <td>display: flex</td>
+                </tr>
+                <tr>
+                  <td><code>hidden</code></td>
+                  <td>display: none</td>
+                </tr>
+              </table>
+              <div>
+                <h4>Arbitrary Values [ ]</h4>
+                <p style="font-size: 13px; color: var(--text-dim)">
+                  Need a value outside the scale?
+                </p>
+                <pre><span class="cls">w-[347px]</span>
+<span class="cls">bg-[#1da1f2]</span>
+<span class="cls">text-[22px]</span>
+<span class="cls">top-[calc(100%-4rem)]</span>
+<span class="cls">grid-cols-[1fr_auto_2fr]</span></pre>
+                <div class="tip">
+                  <span>💡</span> Spaces in brackets → use <code>_</code>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 4 ===== -->
+        <div class="section" id="s-spacing">
+          <div class="section-header">
+            <div class="section-tag">Section 04</div>
+            <div class="section-title">Spacing & Sizing Scale</div>
+            <div class="section-lead">
+              One scale rules everything — p, m, w, h, gap all share the same
+              numbers.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">Value × 4 = Pixels</div>
+            <table>
+              <tr>
+                <th>Value</th>
+                <th>px</th>
+                <th>rem</th>
+                <th>Visual</th>
+              </tr>
+              <tr>
+                <td><code>1</code></td>
+                <td>4px</td>
+                <td>0.25rem</td>
+                <td><span class="sp-bar" style="width: 4px"></span></td>
+              </tr>
+              <tr>
+                <td><code>2</code></td>
+                <td>8px</td>
+                <td>0.5rem</td>
+                <td><span class="sp-bar" style="width: 8px"></span></td>
+              </tr>
+              <tr>
+                <td><code>4</code></td>
+                <td>16px</td>
+                <td>1rem</td>
+                <td><span class="sp-bar" style="width: 16px"></span></td>
+              </tr>
+              <tr>
+                <td><code>6</code></td>
+                <td>24px</td>
+                <td>1.5rem</td>
+                <td><span class="sp-bar" style="width: 24px"></span></td>
+              </tr>
+              <tr>
+                <td><code>8</code></td>
+                <td>32px</td>
+                <td>2rem</td>
+                <td><span class="sp-bar" style="width: 32px"></span></td>
+              </tr>
+              <tr>
+                <td><code>10</code></td>
+                <td>40px</td>
+                <td>2.5rem</td>
+                <td><span class="sp-bar" style="width: 40px"></span></td>
+              </tr>
+              <tr>
+                <td><code>12</code></td>
+                <td>48px</td>
+                <td>3rem</td>
+                <td><span class="sp-bar" style="width: 48px"></span></td>
+              </tr>
+              <tr>
+                <td><code>16</code></td>
+                <td>64px</td>
+                <td>4rem</td>
+                <td><span class="sp-bar" style="width: 64px"></span></td>
+              </tr>
+              <tr>
+                <td><code>20</code></td>
+                <td>80px</td>
+                <td>5rem</td>
+                <td><span class="sp-bar" style="width: 80px"></span></td>
+              </tr>
+              <tr>
+                <td><code>24</code></td>
+                <td>96px</td>
+                <td>6rem</td>
+                <td><span class="sp-bar" style="width: 96px"></span></td>
+              </tr>
+            </table>
+          </div>
+          <div class="card">
+            <div class="card-head">Padding, Margin & Width Prefixes</div>
+            <div class="g2">
+              <table>
+                <tr>
+                  <th>Prefix</th>
+                  <th>Sides</th>
+                </tr>
+                <tr>
+                  <td><code>p-</code></td>
+                  <td>all 4 sides</td>
+                </tr>
+                <tr>
+                  <td><code>px-</code></td>
+                  <td>left + right</td>
+                </tr>
+                <tr>
+                  <td><code>py-</code></td>
+                  <td>top + bottom</td>
+                </tr>
+                <tr>
+                  <td><code>pt- pb-</code></td>
+                  <td>top / bottom</td>
+                </tr>
+                <tr>
+                  <td><code>pl- pr-</code></td>
+                  <td>left / right</td>
+                </tr>
+                <tr>
+                  <td><code>mx-auto</code></td>
+                  <td>center horizontally ✨</td>
+                </tr>
+              </table>
+              <table>
+                <tr>
+                  <th>Width</th>
+                  <th>Value</th>
+                </tr>
+                <tr>
+                  <td><code>w-full</code></td>
+                  <td>100%</td>
+                </tr>
+                <tr>
+                  <td><code>w-screen</code></td>
+                  <td>100vw</td>
+                </tr>
+                <tr>
+                  <td><code>w-1/2</code></td>
+                  <td>50%</td>
+                </tr>
+                <tr>
+                  <td><code>w-auto</code></td>
+                  <td>auto</td>
+                </tr>
+                <tr>
+                  <td><code>max-w-7xl</code></td>
+                  <td>1280px</td>
+                </tr>
+                <tr>
+                  <td><code>min-h-screen</code></td>
+                  <td>100vh min</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 5 ===== -->
+        <div class="section" id="s-typography">
+          <div class="section-header">
+            <div class="section-tag">Section 05</div>
+            <div class="section-title">Typography</div>
+            <div class="section-lead">
+              Every text property you'll ever need.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">Font Size Scale</div>
+            <table>
+              <tr>
+                <th>Class</th>
+                <th>Size</th>
+                <th>Preview</th>
+              </tr>
+              <tr>
+                <td><code>text-xs</code></td>
+                <td>12px</td>
+                <td style="font-size: 12px">The quick brown fox</td>
+              </tr>
+              <tr>
+                <td><code>text-sm</code></td>
+                <td>14px</td>
+                <td style="font-size: 14px">The quick brown fox</td>
+              </tr>
+              <tr>
+                <td><code>text-base</code></td>
+                <td>16px</td>
+                <td style="font-size: 16px">The quick brown fox</td>
+              </tr>
+              <tr>
+                <td><code>text-lg</code></td>
+                <td>18px</td>
+                <td style="font-size: 18px">The quick brown</td>
+              </tr>
+              <tr>
+                <td><code>text-xl</code></td>
+                <td>20px</td>
+                <td style="font-size: 20px">The quick</td>
+              </tr>
+              <tr>
+                <td><code>text-2xl</code></td>
+                <td>24px</td>
+                <td style="font-size: 24px; color: var(--sky)">Hello</td>
+              </tr>
+              <tr>
+                <td><code>text-3xl</code></td>
+                <td>30px</td>
+                <td style="font-size: 28px; color: var(--indigo)">Hello</td>
+              </tr>
+              <tr>
+                <td><code>text-4xl</code></td>
+                <td>36px</td>
+                <td style="font-size: 32px; color: var(--emerald)">Big</td>
+              </tr>
+            </table>
+          </div>
+          <div class="card">
+            <div class="card-head">Weight, Decoration & Alignment</div>
+            <div class="g2">
+              <table>
+                <tr>
+                  <th>Class</th>
+                  <th>Weight</th>
+                </tr>
+                <tr>
+                  <td><code>font-light</code></td>
+                  <td style="font-weight: 300">300 Light</td>
+                </tr>
+                <tr>
+                  <td><code>font-normal</code></td>
+                  <td style="font-weight: 400">400 Normal</td>
+                </tr>
+                <tr>
+                  <td><code>font-medium</code></td>
+                  <td style="font-weight: 500">500 Medium</td>
+                </tr>
+                <tr>
+                  <td><code>font-semibold</code></td>
+                  <td style="font-weight: 600">600 Semibold</td>
+                </tr>
+                <tr>
+                  <td><code>font-bold</code></td>
+                  <td style="font-weight: 700">700 Bold</td>
+                </tr>
+                <tr>
+                  <td><code>font-black</code></td>
+                  <td style="font-weight: 900">900 Black</td>
+                </tr>
+              </table>
+              <pre><span class="cm">/* Alignment */</span>
+<span class="cls">text-left</span> / <span class="cls">text-center</span> / <span class="cls">text-right</span>
+
+<span class="cm">/* Decoration */</span>
+<span class="cls">italic</span>        <span class="cls">not-italic</span>
+<span class="cls">underline</span>     <span class="cls">no-underline</span>
+<span class="cls">line-through</span>
+<span class="cls">uppercase</span>     <span class="cls">capitalize</span>
+<span class="cls">truncate</span>      <span class="cm">← single line ...</span>
+<span class="cls">line-clamp-3</span>  <span class="cm">← 3 lines max</span>
+<span class="cls">whitespace-nowrap</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 6 ===== -->
+        <div class="section" id="s-colors">
+          <div class="section-header">
+            <div class="section-tag">Section 06</div>
+            <div class="section-title">Colors & Backgrounds</div>
+            <div class="section-lead">
+              22 built-in palettes, 11 shades each. Plus gradients and opacity.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">Palette Swatches (100 → 900)</div>
+            <div class="color-row">
+              <span class="color-name">slate</span>
+              <div class="swatch" style="background: #f1f5f9"></div>
+              <div class="swatch" style="background: #e2e8f0"></div>
+              <div class="swatch" style="background: #cbd5e1"></div>
+              <div class="swatch" style="background: #94a3b8"></div>
+              <div class="swatch" style="background: #64748b"></div>
+              <div class="swatch" style="background: #475569"></div>
+              <div class="swatch" style="background: #334155"></div>
+              <div class="swatch" style="background: #1e293b"></div>
+              <div class="swatch" style="background: #0f172a"></div>
+            </div>
+            <div class="color-row">
+              <span class="color-name">blue</span>
+              <div class="swatch" style="background: #dbeafe"></div>
+              <div class="swatch" style="background: #bfdbfe"></div>
+              <div class="swatch" style="background: #93c5fd"></div>
+              <div class="swatch" style="background: #60a5fa"></div>
+              <div class="swatch" style="background: #3b82f6"></div>
+              <div class="swatch" style="background: #2563eb"></div>
+              <div class="swatch" style="background: #1d4ed8"></div>
+              <div class="swatch" style="background: #1e40af"></div>
+              <div class="swatch" style="background: #1e3a8a"></div>
+            </div>
+            <div class="color-row">
+              <span class="color-name">green</span>
+              <div class="swatch" style="background: #dcfce7"></div>
+              <div class="swatch" style="background: #bbf7d0"></div>
+              <div class="swatch" style="background: #86efac"></div>
+              <div class="swatch" style="background: #4ade80"></div>
+              <div class="swatch" style="background: #22c55e"></div>
+              <div class="swatch" style="background: #16a34a"></div>
+              <div class="swatch" style="background: #15803d"></div>
+              <div class="swatch" style="background: #166534"></div>
+              <div class="swatch" style="background: #14532d"></div>
+            </div>
+            <div class="color-row">
+              <span class="color-name">red</span>
+              <div class="swatch" style="background: #fee2e2"></div>
+              <div class="swatch" style="background: #fecaca"></div>
+              <div class="swatch" style="background: #fca5a5"></div>
+              <div class="swatch" style="background: #f87171"></div>
+              <div class="swatch" style="background: #ef4444"></div>
+              <div class="swatch" style="background: #dc2626"></div>
+              <div class="swatch" style="background: #b91c1c"></div>
+              <div class="swatch" style="background: #991b1b"></div>
+              <div class="swatch" style="background: #7f1d1d"></div>
+            </div>
+            <div class="color-row">
+              <span class="color-name">purple</span>
+              <div class="swatch" style="background: #f3e8ff"></div>
+              <div class="swatch" style="background: #e9d5ff"></div>
+              <div class="swatch" style="background: #d8b4fe"></div>
+              <div class="swatch" style="background: #c084fc"></div>
+              <div class="swatch" style="background: #a855f7"></div>
+              <div class="swatch" style="background: #9333ea"></div>
+              <div class="swatch" style="background: #7e22ce"></div>
+              <div class="swatch" style="background: #6b21a8"></div>
+              <div class="swatch" style="background: #581c87"></div>
+            </div>
+            <div class="color-row">
+              <span class="color-name">amber</span>
+              <div class="swatch" style="background: #fef9c3"></div>
+              <div class="swatch" style="background: #fef08a"></div>
+              <div class="swatch" style="background: #fde047"></div>
+              <div class="swatch" style="background: #facc15"></div>
+              <div class="swatch" style="background: #eab308"></div>
+              <div class="swatch" style="background: #ca8a04"></div>
+              <div class="swatch" style="background: #a16207"></div>
+              <div class="swatch" style="background: #854d0e"></div>
+              <div class="swatch" style="background: #713f12"></div>
+            </div>
+            <div class="shade-labels">
+              <span>100</span><span>200</span><span>300</span><span>400</span
+              ><span>500</span><span>600</span><span>700</span><span>800</span
+              ><span>900</span>
+            </div>
+            <div class="tip" style="margin-top: 14px">
+              <span>💡</span
+              ><span
+                >Rule: <strong>100</strong> → light tags ·
+                <strong>500</strong> → buttons · <strong>700</strong> → dark
+                text · <strong>900</strong> → headings</span
+              >
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">Opacity Modifier & Gradients</div>
+            <pre><span class="cm">/* Opacity on any color */</span>
+<span class="cls">bg-blue-500/50</span>       <span class="cm">← 50% opacity bg</span>
+<span class="cls">text-red-600/75</span>      <span class="cm">← 75% opacity text</span>
+<span class="cls">bg-black/10</span>          <span class="cm">← subtle overlay</span>
+
+<span class="cm">/* Gradients */</span>
+<span class="cls">bg-gradient-to-r from-blue-500 to-purple-600</span>
+<span class="cls">bg-gradient-to-br from-pink-500 via-red-500 to-yellow-500</span>
+
+<span class="cm">/* Gradient text */</span>
+<span class="cls">text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600</span></pre>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 7 ===== -->
+        <div class="section" id="s-flexgrid">
+          <div class="section-header">
+            <div class="section-tag">Section 07</div>
+            <div class="section-title">Flexbox & CSS Grid</div>
+            <div class="section-lead">
+              The two layout systems — fully mastered.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">Flexbox — Parent Properties</div>
+            <div class="g2">
+              <table>
+                <tr>
+                  <th>Class</th>
+                  <th>Effect</th>
+                </tr>
+                <tr>
+                  <td><code>flex</code></td>
+                  <td>display: flex</td>
+                </tr>
+                <tr>
+                  <td><code>flex-row</code></td>
+                  <td>direction →</td>
+                </tr>
+                <tr>
+                  <td><code>flex-col</code></td>
+                  <td>direction ↓</td>
+                </tr>
+                <tr>
+                  <td><code>flex-wrap</code></td>
+                  <td>wrap children</td>
+                </tr>
+                <tr>
+                  <td><code>justify-start</code></td>
+                  <td>pack to start</td>
+                </tr>
+                <tr>
+                  <td><code>justify-center</code></td>
+                  <td>center →</td>
+                </tr>
+                <tr>
+                  <td><code>justify-between</code></td>
+                  <td>space-between ↔</td>
+                </tr>
+                <tr>
+                  <td><code>justify-evenly</code></td>
+                  <td>even gaps</td>
+                </tr>
+                <tr>
+                  <td><code>items-start</code></td>
+                  <td>align top</td>
+                </tr>
+                <tr>
+                  <td><code>items-center</code></td>
+                  <td>center ↕ ✨</td>
+                </tr>
+                <tr>
+                  <td><code>items-end</code></td>
+                  <td>align bottom</td>
+                </tr>
+                <tr>
+                  <td><code>gap-4</code></td>
+                  <td>16px gap</td>
+                </tr>
+              </table>
+              <table>
+                <tr>
+                  <th>Children</th>
+                  <th>Effect</th>
+                </tr>
+                <tr>
+                  <td><code>flex-1</code></td>
+                  <td>grow + shrink equally</td>
+                </tr>
+                <tr>
+                  <td><code>flex-none</code></td>
+                  <td>fixed, don't flex</td>
+                </tr>
+                <tr>
+                  <td><code>grow</code></td>
+                  <td>flex-grow: 1</td>
+                </tr>
+                <tr>
+                  <td><code>shrink-0</code></td>
+                  <td>don't shrink</td>
+                </tr>
+                <tr>
+                  <td><code>self-center</code></td>
+                  <td>center self</td>
+                </tr>
+                <tr>
+                  <td><code>order-first</code></td>
+                  <td>order: -9999</td>
+                </tr>
+                <tr>
+                  <td><code>order-last</code></td>
+                  <td>order: 9999</td>
+                </tr>
+              </table>
+            </div>
+            <h4>🔥 Most Common Combos</h4>
+            <pre><span class="cm">/* Center everything */</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"flex items-center justify-center"</span><span class="tag">&gt;</span>
+
+<span class="cm">/* Navbar */</span>
+<span class="tag">&lt;nav</span> <span class="atr">class</span>=<span class="str">"flex items-center justify-between px-6 py-4"</span><span class="tag">&gt;</span>
+
+<span class="cm">/* Stack on mobile, row on desktop */</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"flex flex-col md:flex-row gap-4"</span><span class="tag">&gt;</span>
+
+<span class="cm">/* Sidebar + fill */</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"flex"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"flex-none w-64"</span><span class="tag">&gt;</span>Sidebar<span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"flex-1"</span><span class="tag">&gt;</span>Main<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span></pre>
+          </div>
+          <div class="card">
+            <div class="card-head">CSS Grid</div>
+            <div class="g2">
+              <table>
+                <tr>
+                  <th>Class</th>
+                  <th>Effect</th>
+                </tr>
+                <tr>
+                  <td><code>grid</code></td>
+                  <td>display: grid</td>
+                </tr>
+                <tr>
+                  <td><code>grid-cols-2</code></td>
+                  <td>2 equal columns</td>
+                </tr>
+                <tr>
+                  <td><code>grid-cols-3</code></td>
+                  <td>3 equal columns</td>
+                </tr>
+                <tr>
+                  <td><code>grid-cols-12</code></td>
+                  <td>12-column grid</td>
+                </tr>
+                <tr>
+                  <td><code>gap-6</code></td>
+                  <td>row + col gap</td>
+                </tr>
+                <tr>
+                  <td><code>place-items-center</code></td>
+                  <td>center all items</td>
+                </tr>
+              </table>
+              <table>
+                <tr>
+                  <th>Spanning</th>
+                  <th>Effect</th>
+                </tr>
+                <tr>
+                  <td><code>col-span-2</code></td>
+                  <td>spans 2 cols</td>
+                </tr>
+                <tr>
+                  <td><code>col-span-full</code></td>
+                  <td>spans all cols</td>
+                </tr>
+                <tr>
+                  <td><code>col-start-2</code></td>
+                  <td>start at col 2</td>
+                </tr>
+                <tr>
+                  <td><code>row-span-2</code></td>
+                  <td>spans 2 rows</td>
+                </tr>
+              </table>
+            </div>
+            <pre><span class="cm">&lt;!-- Responsive card grid --&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"</span><span class="tag">&gt;</span>
+<span class="cm">&lt;!-- Custom sidebar layout --&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"grid grid-cols-[280px_1fr] gap-8"</span><span class="tag">&gt;</span></pre>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 8 ===== -->
+        <div class="section" id="s-responsive">
+          <div class="section-header">
+            <div class="section-tag">Section 08</div>
+            <div class="section-title">Responsive Design</div>
+            <div class="section-lead">
+              Mobile-first breakpoints. Master this and you're dangerous.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">The 6 Breakpoints</div>
+            <div class="bp-bar">
+              <div class="bp-cell">
+                <div class="bp-name">(none)</div>
+                <div class="bp-px">0px+</div>
+                <div class="bp-eg">mobile default</div>
+              </div>
+              <div class="bp-cell">
+                <div class="bp-name">sm:</div>
+                <div class="bp-px">640px+</div>
+                <div class="bp-eg">sm:text-lg</div>
+              </div>
+              <div class="bp-cell">
+                <div class="bp-name">md:</div>
+                <div class="bp-px">768px+</div>
+                <div class="bp-eg">md:flex</div>
+              </div>
+              <div class="bp-cell">
+                <div class="bp-name">lg:</div>
+                <div class="bp-px">1024px+</div>
+                <div class="bp-eg">lg:grid-cols-3</div>
+              </div>
+              <div class="bp-cell">
+                <div class="bp-name">xl:</div>
+                <div class="bp-px">1280px+</div>
+                <div class="bp-eg">xl:max-w-7xl</div>
+              </div>
+              <div class="bp-cell">
+                <div class="bp-name">2xl:</div>
+                <div class="bp-px">1536px+</div>
+                <div class="bp-eg">2xl:text-5xl</div>
+              </div>
+            </div>
+            <div class="warn">
+              <span>⚠️</span
+              ><span
+                ><strong>Mobile-first:</strong> No prefix = ALL screens.
+                <code>md:</code> = 768px and UP — not "only on md".</span
+              >
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">Common Responsive Patterns</div>
+            <pre><span class="cm">/* 1. Responsive grid */</span>
+<span class="cls">grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4</span>
+
+<span class="cm">/* 2. Show/hide */</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"block md:hidden"</span><span class="tag">&gt;</span>Mobile only<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"hidden md:block"</span><span class="tag">&gt;</span>Desktop only<span class="tag">&lt;/div&gt;</span>
+
+<span class="cm">/* 3. Responsive text */</span>
+<span class="tag">&lt;h1</span> <span class="atr">class</span>=<span class="str">"text-2xl md:text-4xl lg:text-6xl font-bold"</span><span class="tag">&gt;</span>
+
+<span class="cm">/* 4. Stack → row */</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"flex flex-col md:flex-row gap-4"</span><span class="tag">&gt;</span>
+
+<span class="cm">/* 5. Centered container */</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"container mx-auto px-4"</span><span class="tag">&gt;</span></pre>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 9 ===== -->
+        <div class="section" id="s-states">
+          <div class="section-header">
+            <div class="section-tag">Section 09</div>
+            <div class="section-title">States & Dark Mode</div>
+            <div class="section-lead">
+              Hover, focus, group, peer, dark — all pseudo-class magic.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">State Variants</div>
+            <div class="g2">
+              <table>
+                <tr>
+                  <th>Variant</th>
+                  <th>When</th>
+                </tr>
+                <tr>
+                  <td><code>hover:</code></td>
+                  <td>Mouse hovering</td>
+                </tr>
+                <tr>
+                  <td><code>focus:</code></td>
+                  <td>Focused</td>
+                </tr>
+                <tr>
+                  <td><code>focus-visible:</code></td>
+                  <td>Keyboard focus only</td>
+                </tr>
+                <tr>
+                  <td><code>active:</code></td>
+                  <td>Being clicked</td>
+                </tr>
+                <tr>
+                  <td><code>disabled:</code></td>
+                  <td>disabled attribute</td>
+                </tr>
+                <tr>
+                  <td><code>checked:</code></td>
+                  <td>Checkbox checked</td>
+                </tr>
+                <tr>
+                  <td><code>placeholder:</code></td>
+                  <td>Input placeholder</td>
+                </tr>
+                <tr>
+                  <td><code>required:</code></td>
+                  <td>Required field</td>
+                </tr>
+              </table>
+              <table>
+                <tr>
+                  <th>Variant</th>
+                  <th>When</th>
+                </tr>
+                <tr>
+                  <td><code>valid:</code></td>
+                  <td>Valid input</td>
+                </tr>
+                <tr>
+                  <td><code>invalid:</code></td>
+                  <td>Invalid input</td>
+                </tr>
+                <tr>
+                  <td><code>first:</code></td>
+                  <td>First child</td>
+                </tr>
+                <tr>
+                  <td><code>last:</code></td>
+                  <td>Last child</td>
+                </tr>
+                <tr>
+                  <td><code>odd:</code></td>
+                  <td>Odd children</td>
+                </tr>
+                <tr>
+                  <td><code>even:</code></td>
+                  <td>Even children</td>
+                </tr>
+                <tr>
+                  <td><code>group-hover:</code></td>
+                  <td>Parent hovered</td>
+                </tr>
+                <tr>
+                  <td><code>peer-focus:</code></td>
+                  <td>Sibling focused</td>
+                </tr>
+              </table>
+            </div>
+            <pre><span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="str">"bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold
+  hover:bg-blue-700 active:scale-95
+  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+  disabled:opacity-50 disabled:cursor-not-allowed
+  transition-all duration-200"</span><span class="tag">&gt;</span>Submit<span class="tag">&lt;/button&gt;</span></pre>
+          </div>
+          <div class="card">
+            <div class="card-head">group, peer & Dark Mode</div>
+            <div class="g2">
+              <div>
+                <h4>group</h4>
+                <pre><span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"group"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;img</span> <span class="atr">class</span>=<span class="str">"group-hover:scale-105
+    transition"</span><span class="tag">/&gt;</span>
+  <span class="tag">&lt;p</span> <span class="atr">class</span>=<span class="str">"group-hover:text-blue-600"</span><span class="tag">&gt;</span>
+    Hover parent to change me
+  <span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/div&gt;</span></pre>
+              </div>
+              <div>
+                <h4>peer</h4>
+                <pre><span class="tag">&lt;input</span> <span class="atr">type</span>=<span class="str">"email"</span>
+  <span class="atr">class</span>=<span class="str">"peer border rounded"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;p</span> <span class="atr">class</span>=<span class="str">"hidden
+  peer-invalid:block
+  text-red-500 text-sm"</span><span class="tag">&gt;</span>
+  Invalid email
+<span class="tag">&lt;/p&gt;</span></pre>
+              </div>
+            </div>
+            <pre><span class="cm">// tailwind.config.js — darkMode</span>
+darkMode: <span class="str">'class'</span>   <span class="cm">// manual toggle</span>
+darkMode: <span class="str">'media'</span>  <span class="cm">// follows OS preference</span>
+
+document.documentElement.classList.toggle(<span class="str">'dark'</span>)
+
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"bg-white dark:bg-gray-900 text-gray-900 dark:text-white"</span><span class="tag">&gt;</span></pre>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 10 ===== -->
+        <div class="section" id="s-transitions">
+          <div class="section-header">
+            <div class="section-tag">Section 10</div>
+            <div class="section-title">Transitions & Animations</div>
+            <div class="section-lead">Make your UI feel alive.</div>
+          </div>
+          <div class="card">
+            <div class="card-head">Transition Classes</div>
+            <div class="g2">
+              <table>
+                <tr>
+                  <th>Class</th>
+                  <th>Transitions</th>
+                </tr>
+                <tr>
+                  <td><code>transition</code></td>
+                  <td>all (150ms ease)</td>
+                </tr>
+                <tr>
+                  <td><code>transition-colors</code></td>
+                  <td>color, bg, border</td>
+                </tr>
+                <tr>
+                  <td><code>transition-opacity</code></td>
+                  <td>opacity</td>
+                </tr>
+                <tr>
+                  <td><code>transition-transform</code></td>
+                  <td>transforms</td>
+                </tr>
+                <tr>
+                  <td><code>transition-none</code></td>
+                  <td>disable all</td>
+                </tr>
+              </table>
+              <table>
+                <tr>
+                  <th>Duration</th>
+                  <th>Time</th>
+                </tr>
+                <tr>
+                  <td><code>duration-75</code></td>
+                  <td>75ms</td>
+                </tr>
+                <tr>
+                  <td><code>duration-150</code></td>
+                  <td>150ms (default)</td>
+                </tr>
+                <tr>
+                  <td><code>duration-200</code></td>
+                  <td>200ms</td>
+                </tr>
+                <tr>
+                  <td><code>duration-300</code></td>
+                  <td>300ms</td>
+                </tr>
+                <tr>
+                  <td><code>duration-500</code></td>
+                  <td>500ms</td>
+                </tr>
+                <tr>
+                  <td><code>ease-out</code></td>
+                  <td>most natural</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">Transforms & Built-in Animations</div>
+            <pre><span class="cm">/* Scale */</span>   <span class="cls">scale-95</span>  <span class="cls">scale-100</span>  <span class="cls">scale-105</span>  <span class="cls">scale-110</span>
+<span class="cm">/* Rotate */</span>  <span class="cls">rotate-45</span>  <span class="cls">rotate-90</span>  <span class="cls">rotate-180</span>
+<span class="cm">/* Translate */</span> <span class="cls">translate-x-4</span>  <span class="cls">-translate-y-2</span>  <span class="cls">translate-y-full</span>
+
+<span class="cls">animate-spin</span>    <span class="cm">← loading spinners</span>
+<span class="cls">animate-ping</span>    <span class="cm">← notification ripple</span>
+<span class="cls">animate-pulse</span>   <span class="cm">← skeleton loaders</span>
+<span class="cls">animate-bounce</span>  <span class="cm">← scroll indicator</span></pre>
+            <pre><span class="cm">&lt;!-- Skeleton loader --&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"animate-pulse space-y-3"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"h-4 bg-gray-200 rounded w-3/4"</span><span class="tag">&gt;&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"h-4 bg-gray-200 rounded"</span><span class="tag">&gt;&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"h-32 bg-gray-200 rounded-xl"</span><span class="tag">&gt;&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span></pre>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 11 ===== -->
+        <div class="section" id="s-config">
+          <div class="section-header">
+            <div class="section-tag">Section 11</div>
+            <div class="section-title">Customization & Config</div>
+            <div class="section-lead">
+              Extend Tailwind with your own design tokens.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">tailwind.config.js — extend (v3)</div>
+            <pre>module.exports = {
+  theme: {
+    <span class="cm">// Always 'extend' — don't replace defaults!</span>
+    extend: {
+      colors: {
+        brand: { <span class="str">'500'</span>: <span class="str">'#0ea5e9'</span>, <span class="str">'900'</span>: <span class="str">'#0c4a6e'</span> },
+      },
+      fontFamily: {
+        sans: [<span class="str">'Inter'</span>, <span class="str">'sans-serif'</span>],
+        display: [<span class="str">'Cal Sans'</span>, <span class="str">'serif'</span>],
+      },
+      spacing: { <span class="str">'18'</span>: <span class="str">'4.5rem'</span>, <span class="str">'128'</span>: <span class="str">'32rem'</span> },
+      screens: { <span class="str">'xs'</span>: <span class="str">'475px'</span> },
+      animation: { <span class="str">'fade-in'</span>: <span class="str">'fadeIn 0.5s ease-out'</span> },
+      keyframes: {
+        fadeIn: {
+          <span class="str">'0%'</span>:   { opacity: <span class="str">'0'</span>, transform: <span class="str">'translateY(10px)'</span> },
+          <span class="str">'100%'</span>: { opacity: <span class="str">'1'</span>, transform: <span class="str">'translateY(0)'</span> },
+        },
+      },
+    },
+  },
+  plugins: [
+    require(<span class="str">'@tailwindcss/forms'</span>),
+    require(<span class="str">'@tailwindcss/typography'</span>),
+  ],
+}</pre>
+          </div>
+          <div class="card">
+            <div class="card-head">v4 CSS-Based Config</div>
+            <pre><span class="cls">@import</span> <span class="str">"tailwindcss"</span>;
+<span class="cls">@theme</span> {
+  --color-brand-500: <span class="val">#6366f1</span>;
+  --font-display: <span class="str">"Cal Sans"</span>, serif;
+  --spacing-18: <span class="val">4.5rem</span>;
+  --breakpoint-xs: <span class="val">475px</span>;
+}</pre>
+            <table style="margin-top: 12px">
+              <tr>
+                <th>Plugin</th>
+                <th>Adds</th>
+              </tr>
+              <tr>
+                <td><code>@tailwindcss/forms</code></td>
+                <td>Styled form elements</td>
+              </tr>
+              <tr>
+                <td><code>@tailwindcss/typography</code></td>
+                <td><code>prose</code> class for rich text</td>
+              </tr>
+              <tr>
+                <td><code>@tailwindcss/aspect-ratio</code></td>
+                <td>aspect-video, aspect-square</td>
+              </tr>
+              <tr>
+                <td><code>@tailwindcss/container-queries</code></td>
+                <td>@container responsive design</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 12 ===== -->
+        <div class="section" id="s-patterns">
+          <div class="section-header">
+            <div class="section-tag">Section 12</div>
+            <div class="section-title">Real-World Patterns</div>
+            <div class="section-lead">
+              Copy-paste components you'll actually use.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">Card Component</div>
+            <pre><span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"bg-white dark:bg-gray-800 rounded-2xl shadow-md overflow-hidden
+  border border-gray-100 dark:border-gray-700
+  hover:shadow-lg transition-shadow duration-300"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;img</span> <span class="atr">class</span>=<span class="str">"w-full h-48 object-cover"</span><span class="tag">/&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"p-6"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="str">"text-xs font-semibold uppercase tracking-wider text-blue-600"</span><span class="tag">&gt;</span>Tag<span class="tag">&lt;/span&gt;</span>
+    <span class="tag">&lt;h3</span> <span class="atr">class</span>=<span class="str">"text-lg font-bold text-gray-900 dark:text-white mt-1 mb-2"</span><span class="tag">&gt;</span>Title<span class="tag">&lt;/h3&gt;</span>
+    <span class="tag">&lt;p</span> <span class="atr">class</span>=<span class="str">"text-sm text-gray-500 line-clamp-3"</span><span class="tag">&gt;</span>Description...<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"flex items-center justify-between mt-4 pt-4 border-t border-gray-100"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="str">"text-xs text-gray-400"</span><span class="tag">&gt;</span>Jan 2025<span class="tag">&lt;/span&gt;</span>
+      <span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="str">"text-sm font-semibold text-blue-600 hover:text-blue-800"</span><span class="tag">&gt;</span>Read more →<span class="tag">&lt;/button&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span></pre>
+          </div>
+          <div class="card">
+            <div class="card-head">Badges, Modal & Navbar</div>
+            <pre><span class="cm">&lt;!-- Badges --&gt;</span>
+<span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="str">"inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"</span><span class="tag">&gt;</span>Active<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="str">"inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800"</span><span class="tag">&gt;</span>Error<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="str">"inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800"</span><span class="tag">&gt;</span>Pending<span class="tag">&lt;/span&gt;</span>
+
+<span class="cm">&lt;!-- Modal --&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"bg-white rounded-2xl shadow-2xl w-full max-w-md p-6"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Sticky Navbar --&gt;</span>
+<span class="tag">&lt;nav</span> <span class="atr">class</span>=<span class="str">"sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"max-w-7xl mx-auto px-4 flex items-center justify-between h-16"</span><span class="tag">&gt;</span>
+    Logo | Links | CTA
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/nav&gt;</span></pre>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 13 — @LAYER ===== -->
+        <div class="section" id="s-layer">
+          <div class="section-header">
+            <div class="section-tag">Section 13</div>
+            <div class="section-title">
+              @layer & @apply <span class="adv-badge">Advanced</span>
+            </div>
+            <div class="section-lead">
+              Organize CSS properly and extract reusable patterns.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">The Three Layers</div>
+            <div class="flow">
+              <div class="flow-box sky">
+                @layer base<br /><small
+                  style="font-weight: 400; color: rgba(56, 189, 248, 0.6)"
+                  >element defaults</small
+                >
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-box">
+                @layer components<br /><small
+                  style="font-weight: 400; color: var(--text-dim)"
+                  >reusable patterns</small
+                >
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-box green">
+                @layer utilities<br /><small
+                  style="font-weight: 400; color: rgba(52, 211, 153, 0.6)"
+                  >single-purpose (wins)</small
+                >
+              </div>
+            </div>
+            <div class="info">
+              <span>ℹ️</span> Utilities always win.
+              <code>text-red-500</code> overrides anything in
+              <code>base</code> or <code>components</code> — by design.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">@layer base — Raw HTML Element Styles</div>
+            <pre><span class="cls">@layer</span> base {
+  h1 { <span class="cls">@apply</span> text-3xl font-bold tracking-tight text-gray-900; }
+  h2 { <span class="cls">@apply</span> text-2xl font-semibold text-gray-800; }
+  a  { <span class="cls">@apply</span> text-blue-600 hover:underline; }
+  p  { <span class="cls">@apply</span> leading-relaxed text-gray-600; }
+  body { <span class="cls">@apply</span> antialiased; }
+}</pre>
+          </div>
+          <div class="card">
+            <div class="card-head">@layer components — Reusable Classes</div>
+            <pre><span class="cls">@layer</span> components {
+  .btn {
+    <span class="cls">@apply</span> inline-flex items-center justify-center px-4 py-2
+           rounded-lg font-medium text-sm transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-offset-2
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-primary { <span class="cls">@apply</span> btn bg-blue-600 text-white hover:bg-blue-700 active:scale-95 focus:ring-blue-500; }
+  .btn-outline  { <span class="cls">@apply</span> btn border border-gray-300 text-gray-700 hover:bg-gray-50; }
+  .btn-ghost    { <span class="cls">@apply</span> btn text-gray-600 hover:bg-gray-100; }
+
+  .input {
+    <span class="cls">@apply</span> w-full border border-gray-300 rounded-lg px-3 py-2 text-sm
+           placeholder:text-gray-400
+           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition;
+  }
+  .card  { <span class="cls">@apply</span> bg-white rounded-2xl shadow-sm border border-gray-100 p-6; }
+  .badge { <span class="cls">@apply</span> inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium; }
+  .badge-green  { <span class="cls">@apply</span> badge bg-green-100 text-green-800; }
+  .badge-red    { <span class="cls">@apply</span> badge bg-red-100 text-red-800; }
+}</pre>
+            <div class="warn">
+              <span>⚠️</span> Don't overuse <code>@apply</code> — use it only
+              for truly repeated primitives like <code>.btn</code> and
+              <code>.input</code>.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">
+              @layer utilities — Custom Single-Purpose Classes
+            </div>
+            <pre><span class="cls">@layer</span> utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+
+  .text-balance  { text-wrap: balance; }   <span class="cm">/* even line lengths */</span>
+  .text-pretty   { text-wrap: pretty; }    <span class="cm">/* no orphans */</span>
+
+  .animation-delay-100 { animation-delay: 100ms; }
+  .animation-delay-200 { animation-delay: 200ms; }
+  .animation-delay-300 { animation-delay: 300ms; }
+}</pre>
+            <div class="tip">
+              <span>💡</span> Utilities in <code>@layer utilities</code> support
+              variants: <code>hover:scrollbar-hide</code>,
+              <code>md:text-balance</code> etc.
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 14 — ADVANCED VARIANTS ===== -->
+        <div class="section" id="s-variants">
+          <div class="section-header">
+            <div class="section-tag">Section 14</div>
+            <div class="section-title">
+              has · not · aria · data · container
+              <span class="adv-badge">Advanced</span>
+            </div>
+            <div class="section-lead">Modern CSS power, Tailwind-style.</div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              has: — Style a Parent Based on Its Children
+            </div>
+            <pre><span class="cm">&lt;!-- Form group turns red if input inside is invalid --&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"has-[:invalid]:border-red-500 has-[:invalid]:bg-red-50
+  border rounded-lg p-4 transition-colors"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="atr">type</span>=<span class="str">"email"</span> <span class="atr">required</span> <span class="atr">class</span>=<span class="str">"w-full outline-none bg-transparent"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Card highlights when its checkbox is checked --&gt;</span>
+<span class="tag">&lt;label</span> <span class="atr">class</span>=<span class="str">"has-[:checked]:bg-blue-50 has-[:checked]:border-blue-500
+  border rounded-lg p-4 cursor-pointer flex items-center gap-3"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="atr">type</span>=<span class="str">"checkbox"</span><span class="tag">/&gt;</span>
+  <span class="tag">&lt;span&gt;</span>Select this option<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;/label&gt;</span>
+
+<span class="cm">&lt;!-- Nav item active if child link has .active --&gt;</span>
+<span class="tag">&lt;li</span> <span class="atr">class</span>=<span class="str">"has-[.active]:bg-gray-100 rounded-lg"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;a</span> <span class="atr">class</span>=<span class="str">"active px-4 py-2 block"</span><span class="tag">&gt;</span>Dashboard<span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;/li&gt;</span></pre>
+          </div>
+
+          <div class="card">
+            <div class="card-head">not: — Negation Variant</div>
+            <pre><span class="cm">&lt;!-- All children except the last get a border --&gt;</span>
+<span class="tag">&lt;li</span> <span class="atr">class</span>=<span class="str">"not-last:border-b border-gray-100 py-3"</span><span class="tag">&gt;</span>Item<span class="tag">&lt;/li&gt;</span>
+
+<span class="cm">&lt;!-- All inputs except focused look faded --&gt;</span>
+<span class="tag">&lt;input</span> <span class="atr">class</span>=<span class="str">"not-focus:opacity-60 focus:opacity-100 transition-opacity"</span><span class="tag">/&gt;</span>
+
+<span class="cm">&lt;!-- All buttons except disabled have hover --&gt;</span>
+<span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="str">"not-disabled:hover:bg-blue-700 bg-blue-600 text-white px-4 py-2 rounded"</span><span class="tag">&gt;</span>Click<span class="tag">&lt;/button&gt;</span></pre>
+          </div>
+
+          <div class="card">
+            <div class="card-head">aria-* Variants</div>
+            <table>
+              <tr>
+                <th>Variant</th>
+                <th>ARIA attribute</th>
+                <th>Use case</th>
+              </tr>
+              <tr>
+                <td><code>aria-expanded:</code></td>
+                <td>aria-expanded="true"</td>
+                <td>Accordion open state</td>
+              </tr>
+              <tr>
+                <td><code>aria-selected:</code></td>
+                <td>aria-selected="true"</td>
+                <td>Tab / listbox item</td>
+              </tr>
+              <tr>
+                <td><code>aria-checked:</code></td>
+                <td>aria-checked="true"</td>
+                <td>Custom checkbox</td>
+              </tr>
+              <tr>
+                <td><code>aria-disabled:</code></td>
+                <td>aria-disabled="true"</td>
+                <td>Disabled state</td>
+              </tr>
+              <tr>
+                <td><code>aria-pressed:</code></td>
+                <td>aria-pressed="true"</td>
+                <td>Toggle button</td>
+              </tr>
+              <tr>
+                <td><code>aria-required:</code></td>
+                <td>aria-required="true"</td>
+                <td>Required fields</td>
+              </tr>
+            </table>
+            <pre><span class="tag">&lt;button</span>
+  <span class="atr">aria-expanded</span>=<span class="str">"true"</span>
+  <span class="atr">class</span>=<span class="str">"flex items-center justify-between w-full px-4 py-3
+    aria-expanded:bg-blue-50 aria-expanded:text-blue-700
+    hover:bg-gray-50 rounded-lg transition-colors"</span>
+<span class="tag">&gt;</span>
+  Accordion Title
+  <span class="tag">&lt;svg</span> <span class="atr">class</span>=<span class="str">"aria-expanded:rotate-180 transition-transform"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/svg&gt;</span>
+<span class="tag">&lt;/button&gt;</span></pre>
+          </div>
+
+          <div class="card">
+            <div class="card-head">data-* Variants</div>
+            <pre><span class="cm">&lt;!-- Animated sidebar driven by data-state --&gt;</span>
+<span class="tag">&lt;div</span>
+  <span class="atr">data-state</span>=<span class="str">"open"</span>
+  <span class="atr">class</span>=<span class="str">"fixed left-0 top-0 h-screen w-64 bg-white transform transition-transform duration-300
+    data-[state=open]:translate-x-0
+    data-[state=closed]:-translate-x-full"</span>
+<span class="tag">&gt;</span>Sidebar<span class="tag">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- Active tab --&gt;</span>
+<span class="tag">&lt;button</span>
+  <span class="atr">data-active</span>=<span class="str">"true"</span>
+  <span class="atr">class</span>=<span class="str">"px-4 py-2 text-sm font-medium transition-all
+    data-[active=true]:border-b-2 data-[active=true]:border-blue-600
+    data-[active=true]:text-blue-600
+    data-[active=false]:text-gray-500"</span>
+<span class="tag">&gt;</span>Tab<span class="tag">&lt;/button&gt;</span></pre>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              Container Queries — Style by Parent Size
+            </div>
+            <pre>npm install @tailwindcss/container-queries
+<span class="cm">// tailwind.config.js</span>
+plugins: [require(<span class="str">'@tailwindcss/container-queries'</span>)]</pre>
+            <pre><span class="cm">&lt;!-- Mark parent as a container --&gt;</span>
+<span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"@container"</span><span class="tag">&gt;</span>
+  <span class="cm">&lt;!-- @md: = when THIS container is 448px wide --&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3 gap-4"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"card"</span><span class="tag">&gt;</span>Card<span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span></pre>
+            <table style="margin-top: 12px">
+              <tr>
+                <th>Prefix</th>
+                <th>Min container width</th>
+              </tr>
+              <tr>
+                <td><code>@xs:</code></td>
+                <td>320px</td>
+              </tr>
+              <tr>
+                <td><code>@sm:</code></td>
+                <td>384px</td>
+              </tr>
+              <tr>
+                <td><code>@md:</code></td>
+                <td>448px</td>
+              </tr>
+              <tr>
+                <td><code>@lg:</code></td>
+                <td>512px</td>
+              </tr>
+              <tr>
+                <td><code>@xl:</code></td>
+                <td>576px</td>
+              </tr>
+            </table>
+            <div class="tip">
+              <span>💡</span> Same component adapts to its own container width —
+              perfect for reusable cards placed in sidebars or main areas.
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 15 — REACT ===== -->
+        <div class="section" id="s-react">
+          <div class="section-header">
+            <div class="section-tag">Section 15</div>
+            <div class="section-title">
+              Tailwind in React & Next.js
+              <span class="adv-badge">Advanced</span>
+            </div>
+            <div class="section-lead">
+              Best practices and tools the pros actually use.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">
+              clsx + tailwind-merge — The Essential Combo
+            </div>
+            <pre>npm install clsx tailwind-merge</pre>
+            <pre><span class="cm">// lib/utils.js — the cn() helper (shadcn/ui pattern)</span>
+<span class="kw">import</span> { clsx } <span class="kw">from</span> <span class="str">'clsx'</span>
+<span class="kw">import</span> { twMerge } <span class="kw">from</span> <span class="str">'tailwind-merge'</span>
+
+<span class="kw">export function</span> cn(...inputs) {
+  <span class="kw">return</span> twMerge(clsx(inputs))
+}</pre>
+            <pre><span class="cm">// Usage in a component</span>
+<span class="kw">import</span> { cn } <span class="kw">from</span> <span class="str">'@/lib/utils'</span>
+
+<span class="kw">function</span> Button({ variant, disabled, className, children }) {
+  <span class="kw">return</span> (
+    <span class="tag">&lt;button</span> <span class="atr">className</span>={cn(
+      <span class="str">'px-4 py-2 rounded-lg font-medium transition-all'</span>,
+      variant === <span class="str">'primary'</span> && <span class="str">'bg-blue-600 text-white hover:bg-blue-700'</span>,
+      variant === <span class="str">'ghost'</span>   && <span class="str">'text-gray-600 hover:bg-gray-100'</span>,
+      variant === <span class="str">'danger'</span>  && <span class="str">'bg-red-600 text-white hover:bg-red-700'</span>,
+      disabled && <span class="str">'opacity-50 cursor-not-allowed'</span>,
+      className   <span class="cm">// allows parent to override</span>
+    )}<span class="tag">&gt;</span>{children}<span class="tag">&lt;/button&gt;</span>
+  )
+}</pre>
+            <div class="tip">
+              <span>💡</span> <strong>Why tailwind-merge?</strong> If parent
+              passes <code>p-4</code> and component has <code>p-6</code>,
+              twMerge picks the last one — no conflicting duplicates.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">CVA — Class Variance Authority</div>
+            <pre>npm install class-variance-authority</pre>
+            <pre><span class="kw">import</span> { cva } <span class="kw">from</span> <span class="str">'class-variance-authority'</span>
+<span class="kw">import</span> { cn } <span class="kw">from</span> <span class="str">'@/lib/utils'</span>
+
+<span class="kw">const</span> buttonVariants = cva(
+  <span class="str">'inline-flex items-center justify-center rounded-lg font-medium transition-all
+   focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50'</span>,
+  {
+    variants: {
+      variant: {
+        default:  <span class="str">'bg-blue-600 text-white hover:bg-blue-700'</span>,
+        outline:  <span class="str">'border border-gray-300 bg-white hover:bg-gray-50 text-gray-900'</span>,
+        ghost:    <span class="str">'hover:bg-gray-100 text-gray-900'</span>,
+        danger:   <span class="str">'bg-red-600 text-white hover:bg-red-700'</span>,
+      },
+      size: {
+        sm:      <span class="str">'h-8 px-3 text-xs'</span>,
+        default: <span class="str">'h-10 px-4 py-2 text-sm'</span>,
+        lg:      <span class="str">'h-12 px-8 text-base'</span>,
+        icon:    <span class="str">'h-10 w-10'</span>,
+      },
+    },
+    defaultVariants: { variant: <span class="str">'default'</span>, size: <span class="str">'default'</span> },
+  }
+)
+
+<span class="kw">function</span> Button({ variant, size, className, ...props }) {
+  <span class="kw">return</span> <span class="tag">&lt;button</span> <span class="atr">className</span>={cn(buttonVariants({ variant, size }), className)} {...props}<span class="tag">/&gt;</span>
+}
+
+<span class="cm">// Usage:</span>
+<span class="tag">&lt;Button</span> <span class="atr">variant</span>=<span class="str">"outline"</span> <span class="atr">size</span>=<span class="str">"lg"</span><span class="tag">&gt;</span>Click me<span class="tag">&lt;/Button&gt;</span>
+<span class="tag">&lt;Button</span> <span class="atr">variant</span>=<span class="str">"danger"</span><span class="tag">&gt;</span>Delete<span class="tag">&lt;/Button&gt;</span></pre>
+          </div>
+          <div class="card">
+            <div class="card-head">
+              ⚠️ The #1 Gotcha — Dynamic Class Strings
+            </div>
+            <div class="compare">
+              <div>
+                <span class="compare-label bad-label">❌ BROKEN</span>
+                <pre><span class="cm">// Tailwind can't scan this at build time!</span>
+<span class="kw">const</span> color = <span class="str">'blue'</span>
+&lt;div className={`bg-${color}-500`}&gt;</pre>
+              </div>
+              <div>
+                <span class="compare-label good-label">✅ CORRECT</span>
+                <pre><span class="kw">const</span> map = {
+  blue:  <span class="str">'bg-blue-500'</span>,
+  red:   <span class="str">'bg-red-500'</span>,
+  green: <span class="str">'bg-green-500'</span>,
+}
+&lt;div className={map[color]}&gt;</pre>
+              </div>
+            </div>
+            <div class="info">
+              <span>ℹ️</span> Tailwind scans source files for complete class
+              strings. It cannot parse template literals. Always write
+              <strong>full, complete class names</strong>.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">Next.js Setup</div>
+            <pre><span class="cm">// tailwind.config.js for App Router</span>
+content: [
+  <span class="str">'./pages/**/*.{js,ts,jsx,tsx,mdx}'</span>,
+  <span class="str">'./components/**/*.{js,ts,jsx,tsx,mdx}'</span>,
+  <span class="str">'./app/**/*.{js,ts,jsx,tsx,mdx}'</span>,
+]</pre>
+            <pre><span class="cm">// app/layout.js</span>
+<span class="kw">import</span> <span class="str">'./globals.css'</span>
+<span class="kw">export default function</span> RootLayout({ children }) {
+  <span class="kw">return</span> (
+    <span class="tag">&lt;html</span> <span class="atr">lang</span>=<span class="str">"en"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;body</span> <span class="atr">className</span>=<span class="str">"bg-white dark:bg-gray-950 antialiased"</span><span class="tag">&gt;</span>
+        {children}
+      <span class="tag">&lt;/body&gt;</span>
+    <span class="tag">&lt;/html&gt;</span>
+  )
+}</pre>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 16 — PERFORMANCE ===== -->
+        <div class="section" id="s-perf">
+          <div class="section-header">
+            <div class="section-tag">Section 16</div>
+            <div class="section-title">
+              Performance Tips <span class="adv-badge">Advanced</span>
+            </div>
+            <div class="section-lead">Keep your CSS tiny and builds fast.</div>
+          </div>
+          <div class="card">
+            <div class="card-head">How JIT Purging Works</div>
+            <div class="flow">
+              <div class="flow-box">
+                Source files<br /><small
+                  style="color: var(--text-dim); font-weight: 400"
+                  >.jsx .tsx .html</small
+                >
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-box sky">
+                Scanner<br /><small
+                  style="color: rgba(56, 189, 248, 0.6); font-weight: 400"
+                  >finds class strings</small
+                >
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-box">
+                CSS Generator<br /><small
+                  style="color: var(--text-dim); font-weight: 400"
+                  >only used classes</small
+                >
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-box green">
+                5–20 KB<br /><small
+                  style="color: rgba(52, 211, 153, 0.6); font-weight: 400"
+                  >production bundle</small
+                >
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">Best Practices vs Common Mistakes</div>
+            <table>
+              <tr>
+                <th>Do This ✅</th>
+                <th>Avoid This ❌</th>
+              </tr>
+              <tr>
+                <td>Full class strings: <code>bg-blue-500</code></td>
+                <td>Template literals: <code>bg-${color}-500</code></td>
+              </tr>
+              <tr>
+                <td>Use <code>gap-</code> for flex/grid spacing</td>
+                <td>Adding margin to every individual child</td>
+              </tr>
+              <tr>
+                <td>Custom values in <code>theme.extend</code></td>
+                <td>Arbitrary values everywhere: <code>mt-[127px]</code></td>
+              </tr>
+              <tr>
+                <td>
+                  <code>transition-colors</code> not <code>transition-all</code>
+                </td>
+                <td><code>transition-all</code> (triggers layout recalc)</td>
+              </tr>
+              <tr>
+                <td><code>will-change-transform</code> on animated items</td>
+                <td>Animating layout properties (width/height)</td>
+              </tr>
+              <tr>
+                <td><code>@apply</code> sparingly for true reuse</td>
+                <td><code>@apply</code> for everything</td>
+              </tr>
+            </table>
+          </div>
+          <div class="card">
+            <div class="card-head">Content Paths & Safelist</div>
+            <pre><span class="cm">// tailwind.config.js — cover ALL file types</span>
+content: [
+  <span class="str">'./src/**/*.{html,js,jsx,ts,tsx,vue,svelte}'</span>,
+  <span class="str">'./node_modules/@your-ui-lib/**/*.{js,jsx}'</span>,
+]
+
+<span class="cm">// Safelist — force-include dynamic classes</span>
+safelist: [
+  <span class="str">'bg-blue-500'</span>, <span class="str">'bg-red-500'</span>, <span class="str">'bg-green-500'</span>,
+  { pattern: <span class="val">/bg-(red|blue|green)-(100|500|900)/</span> },
+  { pattern: <span class="val">/text-(sm|base|lg)/</span>, variants: [<span class="str">'hover'</span>, <span class="str">'md'</span>] },
+]</pre>
+            <div class="warn">
+              <span>⚠️</span> "It works in dev but not prod" is almost always a
+              missing content path.
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 17 — BUILD FULL UI ===== -->
+        <div class="section" id="s-build">
+          <div class="section-header">
+            <div class="section-tag">Section 17</div>
+            <div class="section-title">
+              Build a Full UI from Scratch
+              <span class="adv-badge">Advanced</span>
+            </div>
+            <div class="section-lead">
+              A complete SaaS landing page — navbar, hero, features, pricing,
+              footer.
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">Step 1 — Sticky Navbar</div>
+            <pre><span class="tag">&lt;nav</span> <span class="atr">class</span>=<span class="str">"sticky top-0 z-50
+  bg-white/80 dark:bg-gray-900/80 backdrop-blur-md
+  border-b border-gray-200 dark:border-gray-800"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"flex items-center justify-between h-16"</span><span class="tag">&gt;</span>
+      <span class="cm">&lt;!-- Logo --&gt;</span>
+      <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"flex items-center gap-2"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"w-8 h-8 bg-gradient-to-br from-blue-500 to-violet-600 rounded-lg"</span><span class="tag">&gt;&lt;/div&gt;</span>
+        <span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="str">"text-lg font-bold text-gray-900 dark:text-white"</span><span class="tag">&gt;</span>MyApp<span class="tag">&lt;/span&gt;</span>
+      <span class="tag">&lt;/div&gt;</span>
+      <span class="cm">&lt;!-- Nav links (desktop) --&gt;</span>
+      <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"hidden md:flex items-center gap-8 text-sm text-gray-600"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;a</span> <span class="atr">class</span>=<span class="str">"hover:text-blue-600 transition-colors"</span><span class="tag">&gt;</span>Features<span class="tag">&lt;/a&gt;</span>
+        <span class="tag">&lt;a</span> <span class="atr">class</span>=<span class="str">"hover:text-blue-600 transition-colors"</span><span class="tag">&gt;</span>Pricing<span class="tag">&lt;/a&gt;</span>
+        <span class="tag">&lt;a</span> <span class="atr">class</span>=<span class="str">"hover:text-blue-600 transition-colors"</span><span class="tag">&gt;</span>Docs<span class="tag">&lt;/a&gt;</span>
+      <span class="tag">&lt;/div&gt;</span>
+      <span class="cm">&lt;!-- CTAs --&gt;</span>
+      <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"flex items-center gap-3"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="str">"text-sm text-gray-600 hover:text-gray-900 transition-colors"</span><span class="tag">&gt;</span>Log in<span class="tag">&lt;/button&gt;</span>
+        <span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="str">"bg-blue-600 text-white px-4 py-2 rounded-lg text-sm
+          font-medium hover:bg-blue-700 active:scale-95 transition-all"</span><span class="tag">&gt;</span>Get Started<span class="tag">&lt;/button&gt;</span>
+      <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/nav&gt;</span></pre>
+          </div>
+
+          <div class="card">
+            <div class="card-head">Step 2 — Hero Section (Two-Column)</div>
+            <pre><span class="tag">&lt;section</span> <span class="atr">class</span>=<span class="str">"relative overflow-hidden bg-white dark:bg-gray-950 py-24 sm:py-32"</span><span class="tag">&gt;</span>
+  <span class="cm">&lt;!-- Background glow blobs --&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"absolute inset-0 pointer-events-none"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"absolute top-0 right-0 w-96 h-96 bg-blue-400/10 blur-3xl rounded-full"</span><span class="tag">&gt;&lt;/div&gt;</span>
+    <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"absolute bottom-0 left-0 w-96 h-96 bg-violet-400/10 blur-3xl rounded-full"</span><span class="tag">&gt;&lt;/div&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"</span><span class="tag">&gt;</span>
+      <span class="cm">&lt;!-- Left: Text --&gt;</span>
+      <span class="tag">&lt;div&gt;</span>
+        <span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="str">"inline-flex items-center px-3 py-1 rounded-full
+          bg-blue-50 text-blue-700 text-xs font-semibold mb-6"</span><span class="tag">&gt;</span>✦ Now in public beta<span class="tag">&lt;/span&gt;</span>
+        <span class="tag">&lt;h1</span> <span class="atr">class</span>=<span class="str">"text-5xl sm:text-6xl font-black text-gray-900 dark:text-white
+          tracking-tight leading-[1.1] mb-6"</span><span class="tag">&gt;</span>
+          Build UIs&lt;br&gt;
+          <span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="str">"text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600"</span><span class="tag">&gt;</span>10× faster<span class="tag">&lt;/span&gt;</span>
+        <span class="tag">&lt;/h1&gt;</span>
+        <span class="tag">&lt;p</span> <span class="atr">class</span>=<span class="str">"text-lg text-gray-600 dark:text-gray-400 leading-relaxed mb-8 max-w-lg"</span><span class="tag">&gt;</span>
+          A utility-first CSS framework. Design directly in markup. No context-switching.
+        <span class="tag">&lt;/p&gt;</span>
+        <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"flex flex-col sm:flex-row gap-3"</span><span class="tag">&gt;</span>
+          <span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="str">"bg-blue-600 text-white px-7 py-3.5 rounded-xl font-semibold
+            hover:bg-blue-700 active:scale-95 shadow-lg shadow-blue-500/25 transition-all"</span><span class="tag">&gt;</span>Start for free →<span class="tag">&lt;/button&gt;</span>
+          <span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="str">"flex items-center gap-2 text-gray-700 px-7 py-3.5 rounded-xl
+            font-semibold border border-gray-300 hover:bg-gray-50 transition-colors"</span><span class="tag">&gt;</span>▶ Watch demo<span class="tag">&lt;/button&gt;</span>
+        <span class="tag">&lt;/div&gt;</span>
+        <span class="tag">&lt;p</span> <span class="atr">class</span>=<span class="str">"text-sm text-gray-400 mt-4"</span><span class="tag">&gt;</span>Free forever · No credit card<span class="tag">&lt;/p&gt;</span>
+      <span class="tag">&lt;/div&gt;</span>
+      <span class="cm">&lt;!-- Right: Code preview card --&gt;</span>
+      <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"relative"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"absolute inset-0 bg-gradient-to-r from-blue-500 to-violet-500
+          rounded-3xl blur-3xl opacity-15 scale-95"</span><span class="tag">&gt;&lt;/div&gt;</span>
+        <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"relative bg-gray-900 rounded-3xl overflow-hidden shadow-2xl border border-gray-800"</span><span class="tag">&gt;</span>
+          <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"flex items-center gap-2 px-4 py-3 border-b border-gray-800"</span><span class="tag">&gt;</span>
+            <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"w-3 h-3 rounded-full bg-red-500"</span><span class="tag">&gt;&lt;/div&gt;</span>
+            <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"w-3 h-3 rounded-full bg-yellow-500"</span><span class="tag">&gt;&lt;/div&gt;</span>
+            <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"w-3 h-3 rounded-full bg-green-500"</span><span class="tag">&gt;&lt;/div&gt;</span>
+          <span class="tag">&lt;/div&gt;</span>
+          <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"p-6 font-mono text-sm text-gray-300 leading-relaxed"</span><span class="tag">&gt;</span>
+            &lt;div class="<span style="color:#34d399">flex items-center</span><br>
+            &nbsp;&nbsp;<span style="color:#38bdf8">justify-between p-6</span><br>
+            &nbsp;&nbsp;<span style="color:#818cf8">bg-white rounded-2xl</span><br>
+            &nbsp;&nbsp;<span style="color:#fbbf24">shadow-lg"</span>&gt;<br>
+            &nbsp;&nbsp;Hello, Tailwind!<br>
+            &lt;/div&gt;
+          <span class="tag">&lt;/div&gt;</span>
+        <span class="tag">&lt;/div&gt;</span>
+      <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/section&gt;</span></pre>
+          </div>
+
+          <div class="card">
+            <div class="card-head">Step 3 — Feature Grid</div>
+            <pre><span class="tag">&lt;section</span> <span class="atr">class</span>=<span class="str">"py-24 bg-gray-50 dark:bg-gray-900"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"text-center mb-16"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;h2</span> <span class="atr">class</span>=<span class="str">"text-3xl sm:text-4xl font-black text-gray-900 dark:text-white"</span><span class="tag">&gt;</span>Everything you need<span class="tag">&lt;/h2&gt;</span>
+      <span class="tag">&lt;p</span> <span class="atr">class</span>=<span class="str">"text-gray-600 dark:text-gray-400 mt-4 max-w-xl mx-auto"</span><span class="tag">&gt;</span>Built for speed.<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"bg-white dark:bg-gray-800 rounded-2xl p-6
+        border border-gray-100 dark:border-gray-700
+        hover:shadow-md hover:-translate-y-1 transition-all duration-300"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"w-10 h-10 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl mb-4"</span><span class="tag">&gt;</span>⚡<span class="tag">&lt;/div&gt;</span>
+        <span class="tag">&lt;h3</span> <span class="atr">class</span>=<span class="str">"text-base font-bold text-gray-900 dark:text-white mb-2"</span><span class="tag">&gt;</span>Blazing Fast<span class="tag">&lt;/h3&gt;</span>
+        <span class="tag">&lt;p</span> <span class="atr">class</span>=<span class="str">"text-sm text-gray-600 dark:text-gray-400 leading-relaxed"</span><span class="tag">&gt;</span>JIT engine — 5KB average bundle.<span class="tag">&lt;/p&gt;</span>
+      <span class="tag">&lt;/div&gt;</span>
+      <span class="cm">&lt;!-- Repeat for more features --&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/section&gt;</span></pre>
+          </div>
+
+          <div class="card">
+            <div class="card-head">Step 4 — Pricing Cards</div>
+            <pre><span class="tag">&lt;section</span> <span class="atr">class</span>=<span class="str">"py-24 bg-white dark:bg-gray-950"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"max-w-5xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6 items-center"</span><span class="tag">&gt;</span>
+    <span class="cm">&lt;!-- Basic --&gt;</span>
+    <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"rounded-2xl border border-gray-200 p-8"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;h3</span> <span class="atr">class</span>=<span class="str">"text-lg font-bold mb-2"</span><span class="tag">&gt;</span>Basic<span class="tag">&lt;/h3&gt;</span>
+      <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"text-4xl font-black mb-6"</span><span class="tag">&gt;</span>Free<span class="tag">&lt;/div&gt;</span>
+      <span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="str">"w-full border border-gray-300 py-2.5 rounded-lg text-sm font-semibold hover:bg-gray-50 transition-colors"</span><span class="tag">&gt;</span>Get started<span class="tag">&lt;/button&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+    <span class="cm">&lt;!-- Pro (highlighted, scale-105) --&gt;</span>
+    <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"relative bg-blue-600 text-white rounded-2xl p-8
+      shadow-2xl shadow-blue-500/30 scale-105"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"absolute -top-4 left-1/2 -translate-x-1/2"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="str">"bg-gradient-to-r from-amber-400 to-orange-400 text-white text-xs font-bold px-4 py-1.5 rounded-full"</span><span class="tag">&gt;</span>Most Popular<span class="tag">&lt;/span&gt;</span>
+      <span class="tag">&lt;/div&gt;</span>
+      <span class="tag">&lt;h3</span> <span class="atr">class</span>=<span class="str">"text-lg font-bold mb-2"</span><span class="tag">&gt;</span>Pro<span class="tag">&lt;/h3&gt;</span>
+      <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"flex items-baseline gap-1 mb-6"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="str">"text-4xl font-black"</span><span class="tag">&gt;</span>$29<span class="tag">&lt;/span&gt;</span>
+        <span class="tag">&lt;span</span> <span class="atr">class</span>=<span class="str">"text-blue-200"</span><span class="tag">&gt;</span>/mo<span class="tag">&lt;/span&gt;</span>
+      <span class="tag">&lt;/div&gt;</span>
+      <span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="str">"w-full bg-white text-blue-600 py-2.5 rounded-lg text-sm font-bold hover:bg-blue-50 active:scale-[0.98] transition-all"</span><span class="tag">&gt;</span>Get started<span class="tag">&lt;/button&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+    <span class="cm">&lt;!-- Enterprise --&gt;</span>
+    <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"rounded-2xl border border-gray-200 p-8"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;h3</span> <span class="atr">class</span>=<span class="str">"text-lg font-bold mb-2"</span><span class="tag">&gt;</span>Enterprise<span class="tag">&lt;/h3&gt;</span>
+      <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"text-4xl font-black mb-6"</span><span class="tag">&gt;</span>Custom<span class="tag">&lt;/div&gt;</span>
+      <span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="str">"w-full border border-gray-300 py-2.5 rounded-lg text-sm font-semibold hover:bg-gray-50 transition-colors"</span><span class="tag">&gt;</span>Contact us<span class="tag">&lt;/button&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/section&gt;</span></pre>
+          </div>
+
+          <div class="card">
+            <div class="card-head">Step 5 — Footer</div>
+            <pre><span class="tag">&lt;footer</span> <span class="atr">class</span>=<span class="str">"bg-gray-900 text-gray-400 py-16"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"grid grid-cols-2 md:grid-cols-4 gap-8 mb-12"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;div&gt;</span>
+        <span class="tag">&lt;h4</span> <span class="atr">class</span>=<span class="str">"text-white font-semibold mb-4 text-sm"</span><span class="tag">&gt;</span>Product<span class="tag">&lt;/h4&gt;</span>
+        <span class="tag">&lt;ul</span> <span class="atr">class</span>=<span class="str">"space-y-2 text-sm"</span><span class="tag">&gt;</span>
+          <span class="tag">&lt;li&gt;&lt;a</span> <span class="atr">class</span>=<span class="str">"hover:text-white transition-colors"</span><span class="tag">&gt;</span>Features<span class="tag">&lt;/a&gt;&lt;/li&gt;</span>
+          <span class="tag">&lt;li&gt;&lt;a</span> <span class="atr">class</span>=<span class="str">"hover:text-white transition-colors"</span><span class="tag">&gt;</span>Pricing<span class="tag">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="tag">&lt;/ul&gt;</span>
+      <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"border-t border-gray-800 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;p&gt;</span>© 2025 MyApp. All rights reserved.<span class="tag">&lt;/p&gt;</span>
+      <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"flex gap-6"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;a</span> <span class="atr">class</span>=<span class="str">"hover:text-white transition-colors"</span><span class="tag">&gt;</span>Privacy<span class="tag">&lt;/a&gt;</span>
+        <span class="tag">&lt;a</span> <span class="atr">class</span>=<span class="str">"hover:text-white transition-colors"</span><span class="tag">&gt;</span>Terms<span class="tag">&lt;/a&gt;</span>
+      <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/footer&gt;</span></pre>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 18 — ECOSYSTEM ===== -->
+        <div class="section" id="s-ecosystem">
+          <div class="section-header">
+            <div class="section-tag">Section 18</div>
+            <div class="section-title">Ecosystem Map</div>
+            <div class="section-lead">
+              Every tool, library, and resource in the Tailwind world.
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">Official Packages</div>
+            <div class="eco-row">
+              <span class="eco-tag sky">tailwindcss</span>
+              <span class="eco-tag sky">@tailwindcss/vite</span>
+              <span class="eco-tag sky">@tailwindcss/forms</span>
+              <span class="eco-tag sky">@tailwindcss/typography</span>
+              <span class="eco-tag sky">@tailwindcss/aspect-ratio</span>
+              <span class="eco-tag sky">@tailwindcss/container-queries</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">Component Libraries</div>
+            <table>
+              <tr>
+                <th>Library</th>
+                <th>Stack</th>
+                <th>Description</th>
+              </tr>
+              <tr>
+                <td><code>shadcn/ui</code></td>
+                <td>React</td>
+                <td>
+                  Copy-paste components built on Radix UI. Used by most Next.js
+                  projects. ui.shadcn.com
+                </td>
+              </tr>
+              <tr>
+                <td><code>Tailwind UI</code></td>
+                <td>HTML / React / Vue</td>
+                <td>
+                  Premium components by the Tailwind team. Industry standard.
+                  tailwindui.com
+                </td>
+              </tr>
+              <tr>
+                <td><code>Headless UI</code></td>
+                <td>React / Vue</td>
+                <td>
+                  Unstyled, fully accessible components (dropdown, dialog, etc).
+                  headlessui.com
+                </td>
+              </tr>
+              <tr>
+                <td><code>DaisyUI</code></td>
+                <td>HTML</td>
+                <td>
+                  Full component set as a Tailwind plugin. 50+ components.
+                  daisyui.com
+                </td>
+              </tr>
+              <tr>
+                <td><code>Flowbite</code></td>
+                <td>HTML / React</td>
+                <td>600+ components with dark mode support. flowbite.com</td>
+              </tr>
+              <tr>
+                <td><code>Preline UI</code></td>
+                <td>HTML / React</td>
+                <td>Free Figma + code component library. preline.co</td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="card">
+            <div class="card-head">Developer Tooling</div>
+            <table>
+              <tr>
+                <th>Tool</th>
+                <th>What it does</th>
+              </tr>
+              <tr>
+                <td><code>prettier-plugin-tailwindcss</code></td>
+                <td>
+                  Auto-sorts classes in the recommended order on every save
+                </td>
+              </tr>
+              <tr>
+                <td><code>tailwind-merge</code></td>
+                <td>
+                  Merges conflicting Tailwind classes correctly — essential in
+                  React
+                </td>
+              </tr>
+              <tr>
+                <td><code>clsx</code></td>
+                <td>Lightweight conditional class strings utility</td>
+              </tr>
+              <tr>
+                <td><code>class-variance-authority</code></td>
+                <td>Type-safe component variant system (CVA)</td>
+              </tr>
+            </table>
+            <div class="eco-row" style="margin-top: 12px">
+              <span class="eco-tag green">prettier-plugin-tailwindcss</span>
+              <span class="eco-tag green">tailwind-merge</span>
+              <span class="eco-tag green">clsx</span>
+              <span class="eco-tag green">class-variance-authority</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">Icons (pair great with Tailwind)</div>
+            <div class="eco-row">
+              <span class="eco-tag indigo">heroicons.com</span>
+              <span class="eco-tag indigo">lucide.dev</span>
+              <span class="eco-tag indigo">radix-icons</span>
+              <span class="eco-tag indigo">phosphoricons.com</span>
+              <span class="eco-tag indigo">tabler-icons.io</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">Key Resources</div>
+            <table>
+              <tr>
+                <th>Resource</th>
+                <th>URL</th>
+              </tr>
+              <tr>
+                <td>Official Docs</td>
+                <td><code>tailwindcss.com/docs</code></td>
+              </tr>
+              <tr>
+                <td>Tailwind Play (online sandbox)</td>
+                <td><code>play.tailwindcss.com</code></td>
+              </tr>
+              <tr>
+                <td>Tailwind UI (premium components)</td>
+                <td><code>tailwindui.com</code></td>
+              </tr>
+              <tr>
+                <td>shadcn/ui</td>
+                <td><code>ui.shadcn.com</code></td>
+              </tr>
+              <tr>
+                <td>Headless UI</td>
+                <td><code>headlessui.com</code></td>
+              </tr>
+              <tr>
+                <td>Heroicons</td>
+                <td><code>heroicons.com</code></td>
+              </tr>
+              <tr>
+                <td>Tailwind Cheat Sheet</td>
+                <td><code>nerdcave.com/tailwind-cheat-sheet</code></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 19 — CHEAT SHEET ===== -->
+        <div class="section" id="s-cheatsheet">
+          <div class="section-header">
+            <div class="section-tag">Section 19</div>
+            <div class="section-title">Master Cheat Sheet</div>
+            <div class="section-lead">
+              Everything at a glance — bookmark this section.
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">Complete Quick Reference Grid</div>
+            <div class="cheat-grid">
+              <div class="cheat-cell">
+                <div class="cc-cat" style="color: var(--sky)">Display</div>
+                <code>block</code><code>inline-block</code><code>flex</code
+                ><code>inline-flex</code><code>grid</code><code>hidden</code
+                ><code>contents</code>
+              </div>
+              <div class="cheat-cell">
+                <div class="cc-cat" style="color: var(--emerald)">Overflow</div>
+                <code>overflow-auto</code><code>overflow-hidden</code
+                ><code>overflow-scroll</code><code>overflow-x-auto</code
+                ><code>overscroll-none</code>
+              </div>
+              <div class="cheat-cell">
+                <div class="cc-cat" style="color: var(--amber)">Position</div>
+                <code>static</code><code>relative</code><code>absolute</code
+                ><code>fixed</code><code>sticky</code><code>inset-0</code
+                ><code>top-0 right-0</code>
+              </div>
+              <div class="cheat-cell">
+                <div class="cc-cat" style="color: var(--indigo)">Justify</div>
+                <code>justify-start</code><code>justify-center</code
+                ><code>justify-end</code><code>justify-between</code
+                ><code>justify-around</code><code>justify-evenly</code>
+              </div>
+              <div class="cheat-cell">
+                <div class="cc-cat" style="color: var(--rose)">Align Items</div>
+                <code>items-start</code><code>items-center</code
+                ><code>items-end</code><code>items-stretch</code
+                ><code>self-center</code><code>place-items-center</code>
+              </div>
+              <div class="cheat-cell">
+                <div class="cc-cat" style="color: var(--sky)">
+                  Flex children
+                </div>
+                <code>flex-1</code><code>flex-none</code><code>grow</code
+                ><code>grow-0</code><code>shrink</code><code>shrink-0</code
+                ><code>order-first</code><code>order-last</code>
+              </div>
+              <div class="cheat-cell">
+                <div class="cc-cat" style="color: var(--emerald)">Grid</div>
+                <code>grid-cols-2</code><code>grid-cols-3</code
+                ><code>col-span-2</code><code>col-span-full</code
+                ><code>row-span-2</code><code>gap-4 gap-x-4 gap-y-2</code>
+              </div>
+              <div class="cheat-cell">
+                <div class="cc-cat" style="color: var(--amber)">Cursor</div>
+                <code>cursor-pointer</code><code>cursor-not-allowed</code
+                ><code>cursor-wait</code><code>cursor-grab</code
+                ><code>cursor-text</code><code>cursor-default</code>
+              </div>
+              <div class="cheat-cell">
+                <div class="cc-cat" style="color: var(--indigo)">
+                  Object Fit
+                </div>
+                <code>object-cover</code><code>object-contain</code
+                ><code>object-fill</code><code>object-none</code
+                ><code>object-center</code>
+              </div>
+              <div class="cheat-cell">
+                <div class="cc-cat" style="color: var(--rose)">
+                  Aspect Ratio
+                </div>
+                <code>aspect-square</code><code>aspect-video</code
+                ><code>aspect-auto</code><code>aspect-[4/3]</code>
+              </div>
+              <div class="cheat-cell">
+                <div class="cc-cat" style="color: var(--sky)">
+                  Ring / Outline
+                </div>
+                <code>ring</code><code>ring-2</code><code>ring-4</code
+                ><code>ring-blue-500</code><code>ring-offset-2</code
+                ><code>outline-none</code>
+              </div>
+              <div class="cheat-cell">
+                <div class="cc-cat" style="color: var(--emerald)">Filter</div>
+                <code>blur-sm</code><code>blur</code><code>blur-lg</code
+                ><code>brightness-75</code><code>grayscale</code
+                ><code>backdrop-blur-md</code>
+              </div>
+              <div class="cheat-cell">
+                <div class="cc-cat" style="color: var(--amber)">Transform</div>
+                <code>scale-95</code><code>scale-110</code><code>rotate-45</code
+                ><code>rotate-180</code><code>translate-x-4</code
+                ><code>-translate-y-2</code>
+              </div>
+              <div class="cheat-cell">
+                <div class="cc-cat" style="color: var(--indigo)">Gradient</div>
+                <code>bg-gradient-to-r</code><code>bg-gradient-to-b</code
+                ><code>from-blue-500</code><code>via-purple-500</code
+                ><code>to-pink-500</code>
+              </div>
+              <div class="cheat-cell">
+                <div class="cc-cat" style="color: var(--rose)">Visibility</div>
+                <code>visible</code><code>invisible</code><code>sr-only</code
+                ><code>not-sr-only</code><code>pointer-events-none</code
+                ><code>select-none</code>
+              </div>
+              <div class="cheat-cell">
+                <div class="cc-cat" style="color: var(--sky)">Shadows</div>
+                <code>shadow-sm</code><code>shadow</code><code>shadow-md</code
+                ><code>shadow-lg</code><code>shadow-xl</code
+                ><code>shadow-2xl</code><code>shadow-none</code>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">"How do I…" Quick Lookup</div>
+            <table>
+              <tr>
+                <th>Task</th>
+                <th>Classes to use</th>
+              </tr>
+              <tr>
+                <td>Center a div horizontally</td>
+                <td><code>mx-auto</code> + set a <code>max-w-*</code></td>
+              </tr>
+              <tr>
+                <td>Center content with flex</td>
+                <td><code>flex items-center justify-center</code></td>
+              </tr>
+              <tr>
+                <td>Full-screen hero section</td>
+                <td><code>min-h-screen flex items-center</code></td>
+              </tr>
+              <tr>
+                <td>Sticky header</td>
+                <td><code>sticky top-0 z-50</code></td>
+              </tr>
+              <tr>
+                <td>Fixed full-screen overlay</td>
+                <td><code>fixed inset-0 z-50</code></td>
+              </tr>
+              <tr>
+                <td>Truncate long text</td>
+                <td><code>truncate</code> or <code>line-clamp-2</code></td>
+              </tr>
+              <tr>
+                <td>16:9 aspect ratio</td>
+                <td><code>aspect-video</code></td>
+              </tr>
+              <tr>
+                <td>Gradient text</td>
+                <td>
+                  <code
+                    >text-transparent bg-clip-text bg-gradient-to-r from-...
+                    to-...</code
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>Dark overlay on image</td>
+                <td>
+                  <code>relative</code> + child
+                  <code>absolute inset-0 bg-black/50</code>
+                </td>
+              </tr>
+              <tr>
+                <td>Button press effect</td>
+                <td><code>active:scale-95 transition-transform</code></td>
+              </tr>
+              <tr>
+                <td>Card hover lift + shadow</td>
+                <td>
+                  <code
+                    >hover:shadow-xl hover:-translate-y-1 transition-all</code
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>Glassmorphism effect</td>
+                <td>
+                  <code
+                    >bg-white/10 backdrop-blur-md border border-white/20</code
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>Pulsing notification dot</td>
+                <td><code>animate-ping</code> on a rounded div</td>
+              </tr>
+              <tr>
+                <td>Skeleton loader</td>
+                <td><code>animate-pulse bg-gray-200 rounded</code></td>
+              </tr>
+              <tr>
+                <td>Focus ring for accessibility</td>
+                <td>
+                  <code
+                    >focus:outline-none focus:ring-2 focus:ring-blue-500
+                    focus:ring-offset-2</code
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>Hide scrollbar</td>
+                <td>
+                  Custom utility: <code>scrollbar-hide</code> via
+                  <code>@layer utilities</code>
+                </td>
+              </tr>
+              <tr>
+                <td>Responsive sidebar + main</td>
+                <td>
+                  <code>grid grid-cols-[240px_1fr]</code> or
+                  <code>flex</code> with <code>flex-none w-60</code> +
+                  <code>flex-1</code>
+                </td>
+              </tr>
+              <tr>
+                <td>Scroll snap carousel</td>
+                <td>
+                  <code>flex overflow-x-auto snap-x snap-mandatory</code> +
+                  children <code>snap-start shrink-0</code>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="card">
+            <div class="card-head">Recommended Class Order (Best Practice)</div>
+            <pre><span class="tag">&lt;button</span> <span class="atr">class</span>=<span class="str">"
+  flex items-center gap-2          1. Layout
+  w-full max-w-xs                  2. Sizing
+  px-6 py-3                        3. Spacing
+  text-sm font-semibold            4. Typography
+  bg-blue-600 text-white           5. Colors
+  rounded-lg border                6. Borders
+  shadow-sm                        7. Effects
+  transition-all duration-200      8. Transitions
+  hover:bg-blue-700                9. State variants
+  active:scale-95
+  focus:outline-none focus:ring-2
+"</span><span class="tag">&gt;</span>Button<span class="tag">&lt;/button&gt;</span></pre>
+            <div class="tip">
+              <span>💡</span> Install <code>prettier-plugin-tailwindcss</code> —
+              it auto-sorts in this exact order on every save.
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">Spacing Formula Card</div>
+            <table>
+              <tr>
+                <th>What you want</th>
+                <th>Class</th>
+                <th>Pixels</th>
+              </tr>
+              <tr>
+                <td>Tiny gap (icon spacing)</td>
+                <td><code>gap-1</code> / <code>p-1</code></td>
+                <td>4px</td>
+              </tr>
+              <tr>
+                <td>Small padding (badges)</td>
+                <td><code>px-2.5 py-0.5</code></td>
+                <td>10px / 2px</td>
+              </tr>
+              <tr>
+                <td>Button padding</td>
+                <td><code>px-4 py-2</code></td>
+                <td>16px / 8px</td>
+              </tr>
+              <tr>
+                <td>Card padding</td>
+                <td><code>p-6</code></td>
+                <td>24px</td>
+              </tr>
+              <tr>
+                <td>Section padding</td>
+                <td><code>py-16</code> or <code>py-24</code></td>
+                <td>64px / 96px</td>
+              </tr>
+              <tr>
+                <td>Page max width</td>
+                <td><code>max-w-7xl mx-auto</code></td>
+                <td>1280px centered</td>
+              </tr>
+              <tr>
+                <td>Sidebar width</td>
+                <td><code>w-64</code></td>
+                <td>256px</td>
+              </tr>
+              <tr>
+                <td>Avatar size</td>
+                <td><code>w-10 h-10</code></td>
+                <td>40px</td>
+              </tr>
+              <tr>
+                <td>Icon size</td>
+                <td><code>w-5 h-5</code></td>
+                <td>20px</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <!-- ===== SECTION 20 — MISTAKES ===== -->
+        <div class="section" id="s-mistakes">
+          <div class="section-header">
+            <div class="section-tag">Section 20</div>
+            <div class="section-title">Common Mistakes & Fixes</div>
+            <div class="section-lead">
+              The 7 mistakes everyone makes — and exactly how to fix them.
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">Mistake 1 — Dynamic Class Strings</div>
+            <div class="compare">
+              <div>
+                <span class="compare-label bad-label"
+                  >❌ Broken — class never generated</span
+                >
+                <pre><span class="cm">// Tailwind scans source at build time</span>
+<span class="cm">// It cannot evaluate this at runtime!</span>
+<span class="kw">const</span> color = <span class="str">'blue'</span>
+&lt;div className={`bg-${color}-500`}&gt;</pre>
+              </div>
+              <div>
+                <span class="compare-label good-label"
+                  >✅ Fixed — full strings in source</span
+                >
+                <pre><span class="kw">const</span> colorMap = {
+  blue:  <span class="str">'bg-blue-500'</span>,
+  red:   <span class="str">'bg-red-500'</span>,
+  green: <span class="str">'bg-green-500'</span>,
+}
+&lt;div className={colorMap[color]}&gt;</pre>
+              </div>
+            </div>
+            <div class="info">
+              <span>ℹ️</span> Tailwind needs complete class strings present in
+              your source files at build time. Template literals are evaluated
+              at runtime — Tailwind never sees them.
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              Mistake 2 — Misunderstanding Mobile-First
+            </div>
+            <div class="compare">
+              <div>
+                <span class="compare-label bad-label"
+                  >❌ Wrong mental model</span
+                >
+                <pre><span class="cm">// Thinking md: means "only on md"</span>
+<span class="cm">// This does NOT work as expected</span>
+<span class="cls">hidden md:block lg:hidden</span>
+<span class="cm">// ← shows on md AND lg, not just md</span></pre>
+              </div>
+              <div>
+                <span class="compare-label good-label"
+                  >✅ Correct — no prefix = all, prefix = up</span
+                >
+                <pre><span class="cm">// No prefix = ALL screen sizes</span>
+<span class="cm">// md: = 768px and UPWARD forever</span>
+
+<span class="cls">hidden md:block</span>
+<span class="cm">// hidden on mobile, visible md+</span>
+
+<span class="cls">block md:hidden</span>
+<span class="cm">// visible on mobile, hidden md+</span></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">Mistake 3 — Overusing @apply</div>
+            <div class="compare">
+              <div>
+                <span class="compare-label bad-label"
+                  >❌ Defeats the whole purpose</span
+                >
+                <pre><span class="cm">/* You're back to writing CSS for everything */</span>
+<span class="cls">.page-wrapper</span> {
+  <span class="cls">@apply</span> flex flex-col min-h-screen;
+}
+<span class="cls">.section-title</span> {
+  <span class="cls">@apply</span> text-3xl font-bold;
+}
+<span class="cls">.hero-text</span> {
+  <span class="cls">@apply</span> text-gray-600 leading-relaxed;
+}</pre>
+              </div>
+              <div>
+                <span class="compare-label good-label"
+                  >✅ Just write it in HTML</span
+                >
+                <pre><span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"flex flex-col min-h-screen"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;h1</span> <span class="atr">class</span>=<span class="str">"text-3xl font-bold"</span><span class="tag">&gt;</span>Title<span class="tag">&lt;/h1&gt;</span>
+  <span class="tag">&lt;p</span> <span class="atr">class</span>=<span class="str">"text-gray-600 leading-relaxed"</span><span class="tag">&gt;</span>
+    Text
+  <span class="tag">&lt;/p&gt;</span>
+
+<span class="cm">/* @apply only for true primitives */</span>
+<span class="cls">.btn-primary</span> { <span class="cls">@apply</span> ... }
+<span class="cls">.input</span>       { <span class="cls">@apply</span> ... }</pre>
+              </div>
+            </div>
+            <div class="tip">
+              <span>💡</span> Use <code>@apply</code> only for truly repeated UI
+              primitives that appear dozens of times: <code>.btn</code>,
+              <code>.input</code>, <code>.badge</code>.
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              Mistake 4 — Wrong Content Paths (Prod Bug)
+            </div>
+            <div class="compare">
+              <div>
+                <span class="compare-label bad-label"
+                  >❌ Too narrow — misses files</span
+                >
+                <pre>content: [
+  <span class="str">'./src/**/*.html'</span>
+  <span class="cm">// misses .jsx .tsx .vue .svelte!</span>
+]</pre>
+              </div>
+              <div>
+                <span class="compare-label good-label"
+                  >✅ Cover every file that has classes</span
+                >
+                <pre>content: [
+  <span class="str">'./src/**/*.{html,js,jsx,ts,tsx}'</span>,
+  <span class="cm">// include UI library if it uses classes:</span>
+  <span class="str">'./node_modules/@ui-lib/**/*.{js,jsx}'</span>,
+]</pre>
+              </div>
+            </div>
+            <div class="warn">
+              <span>⚠️</span> "Works in dev, broken in prod" is almost always a
+              missing content path. This is the #1 production bug with Tailwind.
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              Mistake 5 — Margin on Every Child Instead of Gap
+            </div>
+            <div class="compare">
+              <div>
+                <span class="compare-label bad-label"
+                  >❌ Fragile — last child gets extra margin</span
+                >
+                <pre><span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"flex"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"mr-4"</span><span class="tag">&gt;</span>Item 1<span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"mr-4"</span><span class="tag">&gt;</span>Item 2<span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span><span class="tag">&gt;</span>Item 3<span class="tag">&lt;/div&gt;</span> <span class="cm">← inconsistent!</span>
+<span class="tag">&lt;/div&gt;</span></pre>
+              </div>
+              <div>
+                <span class="compare-label good-label"
+                  >✅ Clean — gap handles everything</span
+                >
+                <pre><span class="tag">&lt;div</span> <span class="atr">class</span>=<span class="str">"flex gap-4"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div&gt;</span>Item 1<span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div&gt;</span>Item 2<span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div&gt;</span>Item 3<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">Mistake 6 — Using transition-all</div>
+            <div class="compare">
+              <div>
+                <span class="compare-label bad-label"
+                  >❌ Triggers layout recalculation</span
+                >
+                <pre><span class="cm">/* transitions EVERYTHING including */</span>
+<span class="cm">/* width, height — causes jank */</span>
+<span class="cls">transition-all duration-300</span></pre>
+              </div>
+              <div>
+                <span class="compare-label good-label"
+                  >✅ Only transition what changes</span
+                >
+                <pre><span class="cm">/* hover color change */</span>
+<span class="cls">transition-colors duration-200</span>
+
+<span class="cm">/* hover scale/move */</span>
+<span class="cls">transition-transform duration-200</span>
+
+<span class="cm">/* fade in/out */</span>
+<span class="cls">transition-opacity duration-200</span></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              Mistake 7 — Replacing Instead of Extending Theme
+            </div>
+            <div class="compare">
+              <div>
+                <span class="compare-label bad-label"
+                  >❌ Replaces ALL default colors</span
+                >
+                <pre><span class="cm">// tailwind.config.js</span>
+theme: {
+  colors: {
+    brand: <span class="str">'#6366f1'</span>
+    <span class="cm">// ALL default colors gone!</span>
+    <span class="cm">// No more blue, red, gray...</span>
+  }
+}</pre>
+              </div>
+              <div>
+                <span class="compare-label good-label"
+                  >✅ extend keeps defaults + adds yours</span
+                >
+                <pre><span class="cm">// tailwind.config.js</span>
+theme: {
+  extend: {
+    colors: {
+      brand: <span class="str">'#6366f1'</span>
+      <span class="cm">// All Tailwind colors still work ✓</span>
+    }
+  }
+}</pre>
+              </div>
+            </div>
+            <div class="warn">
+              <span>⚠️</span> Always use <code>theme.extend</code> unless you
+              intentionally want to replace the entire default theme.
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /content-area -->
+    </div>
+    <!-- /main -->
+
+    <button class="mobile-toggle" id="menuBtn" onclick="toggleSidebar()">
+      ☰
+    </button>
+
+    <script>
+      function show(id, el) {
+        document
+          .querySelectorAll(".section")
+          .forEach((s) => s.classList.remove("active"));
+        document
+          .querySelectorAll(".nav-item")
+          .forEach((n) => n.classList.remove("active"));
+        var sec = document.getElementById("s-" + id);
+        if (sec) sec.classList.add("active");
+        if (el) el.classList.add("active");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (window.innerWidth < 900) {
+          document.getElementById("sidebar").classList.remove("open");
+        }
+      }
+      function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("open");
+      }
+      document.addEventListener("click", function (e) {
+        var sidebar = document.getElementById("sidebar");
+        var btn = document.getElementById("menuBtn");
+        if (
+          window.innerWidth < 900 &&
+          !sidebar.contains(e.target) &&
+          e.target !== btn
+        ) {
+          sidebar.classList.remove("open");
+        }
+      });
+    </script>
+  </body>
+</html>
